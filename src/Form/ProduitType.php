@@ -4,14 +4,12 @@
 namespace App\Form;
 
 
-use App\Entity\Fourniture;
 use App\Entity\Gamme;
 use App\Entity\Produit;
+use App\Entity\ProduitFourniture;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,10 +29,9 @@ class ProduitType extends AbstractType
                 'class' => Gamme::class,
                 'choice_label' => 'name',
             ])
-
             ->add(
-                $builder->create('fourniture', FournitureType::class, [
-                    'mapped'=>false,
+                $builder->create('produitFournitures', ProduitFourniture::class, [
+
                 ])
             )
             ->add('save', SubmitType::class, ['label' => 'Créer votre produit'])

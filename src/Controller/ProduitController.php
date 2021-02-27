@@ -57,7 +57,7 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-             $fournitures = $form->get('fournitures')->getData();
+//             $fournitures = $form->get('fournitures')->getData();
 
 
              $entityManager = $this->getDoctrine()->getManager();
@@ -66,7 +66,7 @@ class ProduitController extends AbstractController
 
             return $this->render('produit/show.html.twig', [
                 'produit' => $produit,
-                'fournitures'=>$fournitures
+//                'fournitures'=>$fournitures
             ]);
         }
 
