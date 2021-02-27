@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    new product
+{% endblock %}
+
+{% block content %}
+<h1>produit crée avec succes</h1>
+    <h1>
+        id :    {{ produit.id }}
+    </h1>
+    <h1>
+        name :    {{ produit.name }}
+    </h1>
+    <h1>
+        prix de vente :    {{ produit.sellPrice }}
+    </h1>
+    <h1>
+        gamme :    {{ produit.gamme.name }}
+    </h1>
+    {% for fourniture in fournitures %}
+        <h2>{{ fourniture.name }}   {{ fourniture.buyPrice }}</h2>
+
+    {% else %}
+        <h1>0 fournitures </h1>
+    {% endfor %}
+
+
+
+
+{% endblock %}
