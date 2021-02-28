@@ -1,0 +1,1 @@
+fos.Router.setData({"base_url":"","routes":{"produit_create":{"tokens":[["text","\/produits\/create"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["POST","GET"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]});
