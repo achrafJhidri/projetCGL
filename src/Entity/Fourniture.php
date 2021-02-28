@@ -4,6 +4,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Repository\FournitureRepository;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 
 
@@ -41,6 +42,26 @@ class Fourniture
      */
     private  $fournitureProduit;
 
+    /**
+     * @ManyToOne  (targetEntity="Gamme",inversedBy="fourniture")
+     */
+    private $gamme ;
+
+    /**
+     * @return mixed
+     */
+    public function getGamme()
+    {
+        return $this->gamme;
+    }
+
+    /**
+     * @param mixed $gamme
+     */
+    public function setGamme($gamme): void
+    {
+        $this->gamme = $gamme;
+    }
 
     /**
      * Fourniture constructor.

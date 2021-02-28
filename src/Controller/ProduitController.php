@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Fourniture;
 use App\Entity\Gamme;
 use App\Entity\Produit;
+use App\Entity\ProduitFourniture;
 use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,39 +50,27 @@ class ProduitController extends AbstractController
      */
     public function indexAction(): Response
     {
+        $produit =  $this->em->getRepository(Produit::class)->find(16);
+
         return $this->render('produit/index.html.twig', [
             'produits' => $this->em->getRepository(Produit::class)->findAll()
         ]);
     }
 
     /**
-     * @Route("/produittest",name="produit_create_test",methods={"GET"})
+     * @param int $id
+     * @Route("/{id}",name="show_produit",requirements={"id"="\d+"})
      */
-    public function  createProduit_test() :Response   {
-        $em = $this->getDoctrine()->getManager();
+    public function showProduit (int $id){
 
-        $fourniture = new Fourniture();
-        $fourniture->setName("fourniture1");
-        $fourniture->setBuyPrice(2.23);
-        $fourniture->setIsPriceUpdatable(true);
+        $produit = $this->em->getRepository(Produit::class)->find($id);
 
-        $gamme = new Gamme();
-        $gamme->setName("Gamme 2");
+//        $tab = $this->em->getRepository(ProduitFourniture::class)->getFournituresForProduct($id);
 
-        $produit = new Produit();
-        $produit->setName("produit 1");
-        $produit->setGamme($gamme);
-        $produit->addFourniture($fourniture,4);
-        $produit->setSellPrice(10);
-
-//        dump($produit);die;
-
-        $em->persist($produit);
-        $em->flush();
-
-        return new Response("saved new fourniture with id ".$produit->getId());
+        return $this->render('produit/show.html.twig',[
+            'produit' => $produit
+        ]);
     }
-
 
     /**
      * @Route("/create",name="produit_create" , methods={"POST", "GET"}, options={"expose"=true})
@@ -100,7 +89,9 @@ class ProduitController extends AbstractController
             $produit->setSellPrice($request->request->get("price"));
 
             $gamme = $this->em->getRepository(Gamme::class)->find($request->request->get("gamme"));
-            $produit->setGamme($gamme);
+//            $produit->setGamme($gamme);
+
+            $gamme->addProduct($produit);
 
             $produitFourniture = json_decode($request->request->get("fournitureProduit"));
             foreach ($produitFourniture as $value)
@@ -108,7 +99,6 @@ class ProduitController extends AbstractController
                 $fourniture = $this->em->getRepository(Fourniture::class)->find(intval($value->id_fourniture));
                 $produit->addFourniture($fourniture, intval($value->quantite));
             }
-           //dump(json_decode($request->request->get("fournitureProduit")));
             $this->em->persist($produit);
             $this->em->flush();
 

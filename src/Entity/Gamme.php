@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Repository\GammeRepository;
 use Doctrine\ORM\Mapping\OneToMany;
+use function Sodium\add;
 
 /**
  * Class Gamme
@@ -28,10 +30,54 @@ class Gamme
     private string $name;
 
     /**
-     * @OneToMany(targetEntity="Produit", mappedBy="gamme")
-     * @ORM\JoinColumn(name="produit_id", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="Produit",mappedBy="gamme")
      */
     private  $products ;
+
+    /**
+     * @OneToMany(targetEntity="Fourniture", mappedBy="gamme")
+     */
+    private $fournitures;
+
+    /**
+     * @return Collection
+     */
+    public function getProducts() : Collection
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param Collection $products
+     */
+    public function setProducts(Collection $products): void
+    {
+        $this->products = $products;
+    }
+    public function addProduct (Produit  $produit) : void
+    {
+        if (!$this->products->contains($produit)) {
+            $this->products[] = $produit;
+            $produit->setGamme($this);
+        }
+    }
+    /**
+     * @return mixed
+     */
+    public function getFournitures()
+    {
+        return $this->fournitures;
+    }
+
+    /**
+     * @param Fourniture $fourniture
+     */
+    public function addFourniture( Fourniture $fourniture): void
+    {
+        $this->fournitures[] = $fourniture;
+    }
+
+
 
     /**
      * Gamme constructor.
@@ -65,21 +111,7 @@ class Gamme
         $this->name = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getProducts()
-    {
-        return $this->products;
-    }
 
-    /**
-     * @param Produit $product
-     */
-    public function addProduct(Produit $product): void
-    {
-        $this->products[] = $product;
-    }
 
 
 

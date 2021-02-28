@@ -1,18 +1,46 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}
     {{ parent() }} |
-    Fournitures
+    Fourniture
 {% endblock %}
-
 {% block content %}
+    <div>
 
-        {% for fourniture in fournitures %}
-            <h2>{{ fourniture.name }}   {{ fourniture.buyPrice }}</h2>
+        <table>
+            <tr>
+                <th>name</th>
+                <th>gamme</th>
+                <th>prix d'achat</th>
+                <th>prix modifiable </th>
+                <th></th>
+            </tr>
+            {% for fourniture in fournitures %}
+                <tr>
+                    <td>
+                        <a href="{{ path("fourniture_one_show",{'id': fourniture.id }) }}">
+                            {{ fourniture.name }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ fourniture.gamme.name }}
+                    </td>
+                    <td>
+                        {{ fourniture.buyPrice }}
+                    </td>
+                    <td>
+                        {% if fourniture.priceUpdatable  %} Oui {% else  %} Non {% endif %}
+                    </td>
 
-        {% else %}
-            <h1>0 fournitures </h1>
-        {% endfor %}
+                </tr>
+            {% endfor %}
 
+        </table>
 
+        <br>
+        <br>
+        <br>
+        <a href="{{ path("fourniture_create") }}">
+            créer une fourniture
+        </a>
+    </div>
 {% endblock %}

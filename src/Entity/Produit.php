@@ -39,9 +39,7 @@ class Produit
 
 
     /**
-     *
-     * @ManyToOne(targetEntity="Gamme",inversedBy="products",cascade="persist")
-     * @ORM\JoinColumn (name="gamme_id", referencedColumnName="id")
+     * @ManyToOne(targetEntity="Gamme",inversedBy="products")
      */
     private Gamme $gamme;
 
@@ -115,7 +113,6 @@ class Produit
      */
     public function setGamme(Gamme $gamme): void
     {
-//        $gamme->addProduct($this);
         $this->gamme = $gamme;
     }
 

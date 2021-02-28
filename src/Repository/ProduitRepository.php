@@ -33,6 +33,18 @@ class ProduitRepository extends ServiceEntityRepository
         }catch (NonUniqueResultException $e) {
             return null;
         }
+    }
+    /**
+     * @return array
+     */
+    public function getProduitsByGamme(int $gammeId) :array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->where('p.gamme = :gammeId')
+            ->setParameter('gammeId',$gammeId)
+                ;
+        return  $qb->getQuery()->execute();
 
     }
 }

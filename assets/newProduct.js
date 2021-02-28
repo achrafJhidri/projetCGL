@@ -1,6 +1,6 @@
 import './styles/newProduct.scss';
 let Routing = require('../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.js')
-let Route = require('./js_routes.json')
+let Route = require('./js-routes.json')
 
 Routing.setRoutingData(Route);
 //console.log(Routing.generate("produit_create"));
@@ -92,6 +92,7 @@ btnEnregistrer.addEventListener('click', (event)=>{
      }*/
     //console.log(form);
     const url = Routing.generate("produit_create");
+    console.log(url);
 
     const hdr = new Headers();
     hdr.append('X-Requested-With', 'XMLHttpRequest');

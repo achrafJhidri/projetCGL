@@ -5,6 +5,28 @@
 {% endblock %}
 {% block content %}
     <div>
-        <h4>Page des gammes #todo</h4>
+
+        <table>
+            <tr>
+                <th>name</th>
+            </tr>
+            {% for gamme in gammes %}
+                <tr>
+                    <td>
+                        <a href="{{ path("show_one_gamme",{'id': gamme.id }) }}">
+                            {{ gamme.name }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </table>
+        <br>
+        <br>
+        <br>
+        <a href="{{ path("create_gamme") }}">
+            créer une gamme
+
+        </a>
     </div>
 {% endblock %}

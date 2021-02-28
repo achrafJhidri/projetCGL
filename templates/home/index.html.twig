@@ -8,7 +8,7 @@
             <ul class="list-group mb-2">
                 {% for gamme in gammes %}
                     <li  class="list-group-item">
-                        <a href="{{ path('show_on_gamme', {'id': gamme.id}) }}" type="button" class="btn btn-link">{{ gamme.name }}</a>
+                        <a href="{{ path('show_one_gamme', {'id': gamme.id}) }}" type="button" class="btn btn-link">{{ gamme.name }}</a>
                     </li>
                 {% endfor %}
             </ul>

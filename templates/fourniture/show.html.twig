@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+    <h1>
+        id :    {{ fourniture.id }}
+    </h1>
+    <h1>
+        name :    {{ fourniture.name }}
+    </h1>
+    <h1>
+        prix d'achat  :    {{ fourniture.buyPrice }}
+    </h1>
+    <h1>
+        gamme :    {{ fourniture.gamme.name }}
+    </h1>
+    <h1>
+        prix modifiable ? :    {% if fourniture.priceUpdatable %} Oui {% else %} non {% endif %}
+    </h1>
+
+
+
+{% endblock %}

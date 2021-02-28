@@ -6,7 +6,11 @@ namespace App\Controller;
 
 use App\Entity\Fourniture;
 
+use App\Form\FournitureType;
+use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,23 +22,47 @@ use Symfony\Component\Routing\Annotation\Route;
 class FournitureController extends AbstractController
 {
     /**
-     * @Route("/create",name="fourniture_create",methods={"POST"})
+     * @var EntityManagerInterface
      */
-    public function  createFourniture() :Response   {
-        $em = $this->getDoctrine()->getManager();
+    private EntityManagerInterface  $em;
 
-        $fourniture = new Fourniture();
-        $fourniture->setName("carton");
-        $fourniture->setBuyPrice(2.23);
-        $fourniture->setIsPriceUpdatable(true);
+    /**
+     * FournitureController constructor.
+     * @param EntityManagerInterface $em
+     */
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
 
-        $em->persist($fourniture);
-        $em->flush();
-        return new Response("saved new fourniture with id ".$fourniture->getId());
+
+    /**
+     * @Route("/create",name="fourniture_create")
+     */
+    public function  createFourniture(Request $request ) :Response   {
+       $fourniture = new Fourniture();
+       $form = $this->createForm(FournitureType::class,$fourniture);
+
+       $form->handleRequest($request);
+       if($form->isSubmitted() && $form->isValid()){
+           $this->em->persist($fourniture);
+           $this->em->flush();
+
+           return $this->render( 'fourniture/show.html.twig',[
+               'fourniture'=>$fourniture
+           ]);
+       }
+
+       $nb = sizeof($this->getDoctrine()->getRepository(Fourniture::class)->findAll());
+
+       return $this->render('fourniture/new.html.twig',[
+           'form' => $form->createView(),
+           'numberOfFournitures' => $nb,
+       ]);
     }
 
     /**
-     * @Route("/fourniture/{id}", name="fourniture_show_byId")
+     * @Route("/{id}", name="fourniture_one_show")
      */
     public function show(int $id): Response
     {
@@ -48,11 +76,11 @@ class FournitureController extends AbstractController
             );
         }
 
-        return new Response('Check out this great fourniture: '.$fourniture->getName());
+        return $this->render('fourniture/show.html.twig',[
+            'fourniture' => $fourniture
+        ]);
 
-        // or render a template
-        // in the template, print things with {{ fourniture.name }}
-        // return $this->render('fourniture/show.html.twig', ['fourniture' => $fourniture]);
+
     }
 
     /**

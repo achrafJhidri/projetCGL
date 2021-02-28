@@ -1,1 +1,0 @@
-{"base_url":"","routes":{"produit_create":{"tokens":[["text","\/produit"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["POST","GET"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]}

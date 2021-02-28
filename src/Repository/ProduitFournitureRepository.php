@@ -17,4 +17,17 @@ class ProduitFournitureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ProduitFourniture::class);
     }
+
+    /**
+     * @param int $productId
+     * @return array
+     */
+    public function getFournituresForProduct(int $productId) : array {
+        $qb = $this->createQueryBuilder('p')
+
+            ->where('p.product = :productId')
+            ->setParameter('productId',$productId);
+        ;
+        return $qb->getQuery()->execute();
+    }
 }

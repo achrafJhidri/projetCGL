@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | new Fourniture
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card-header mb-3">
+            <h4>Créer une fourniture</h4>
+        </div>
+        {{ form(form) }}
+
+
+    </div>
+
+    <div class="container">
+        <a href="{{ path('index_fournitures') }}" type="button" class="btn btn-info btn-sm">
+            Voir toutes les fourniture
+            <span class="badge badge-light" id="lenght-products">{{ numberOfFournitures }}</span>
+        </a>
+    </div>
+{% endblock %}
+

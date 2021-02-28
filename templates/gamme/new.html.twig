@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | new Gamme
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card-header mb-3">
+            <h4>Créer une gamme</h4>
+        </div>
+        {{ form_start(form) }}
+        <div>
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="container">
+        <a href="{{ path('index_gamme') }}" type="button" class="btn btn-info btn-sm">
+            Voir toutes les gammes
+            <span class="badge badge-light" id="lenght-products">{{ numberOfGammes }}</span>
+        </a>
+    </div>
+{% endblock %}
+
