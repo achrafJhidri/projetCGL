@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <div>
+        <h1 class="display-5">Bienvenue sur l'application F & BC - RENTAB</h1>
+        <div class="lead mb-3">
+            <p class="font-weight-normal">Le but de cette application est de calculer la rentabilité de nos différentes gammes de produits.</p>
+            <ul class="list-group mb-2">
+                {% for gamme in gammes %}
+                    <li  class="list-group-item">
+                        <a href="{{ path('show_on_gamme', {'id': gamme.id}) }}" type="button" class="btn btn-link">{{ gamme.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if nbGammes > 1 %}
+                <a href="{{ path('index_gamme') }}" type="button" class="btn btn-info">Voir toutes nos gammes</a>
+            {% endif %}
+        </div>
+        <div class="lead mb-3">
+            <p class="font-weight-normal">Elle permet également de visualiser les prix maximum autorisés pour faire du bénéfice sur nos différentes gammes</p>
+            <a  href="{{ path('index_calcul_rentabilite') }}" type="button" class="btn btn-info">Cacul de rentabilité</a>
+        </div>
+    </div>
+
+{% endblock %}

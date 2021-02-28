@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    new product
+{% endblock %}
+
+{% block content %}
+
+    {{ form_start(form) }}
+        {{ form_widget(form.name) }}
+        {{ form_widget(form.sellPrice) }}
+        {{ form_widget(form.gamme) }}
+
+        <button></button>
+    {{ form_end(form) }}
+
+
+{% endblock %}

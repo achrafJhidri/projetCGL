@@ -29,6 +29,7 @@ class Gamme
 
     /**
      * @OneToMany(targetEntity="Produit", mappedBy="gamme")
+     * @ORM\JoinColumn(name="produit_id", referencedColumnName="id")
      */
     private  $products ;
 

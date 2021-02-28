@@ -1,0 +1,21 @@
+
+body{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  nav, #footer{
+    flex-basis: 5%;
+  }
+  #content{
+    flex: 2;
+  }
+}
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+
+$primary: darken(#428bca, 20%);
+
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+

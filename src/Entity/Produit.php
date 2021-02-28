@@ -39,13 +39,15 @@ class Produit
 
 
     /**
+     *
      * @ManyToOne(targetEntity="Gamme",inversedBy="products",cascade="persist")
+     * @ORM\JoinColumn (name="gamme_id", referencedColumnName="id")
      */
     private Gamme $gamme;
 
 
     /**
-     * @OneToMany (targetEntity="ProduitFourniture",mappedBy="produit",cascade="persist")
+     * @OneToMany (targetEntity="ProduitFourniture",mappedBy="product",cascade="persist")
      */
     private $produitFournitures;
 

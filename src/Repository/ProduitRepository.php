@@ -5,6 +5,8 @@ namespace App\Repository;
 
 use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 class ProduitRepository extends ServiceEntityRepository
@@ -16,5 +18,21 @@ class ProduitRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Produit::class);
+    }
+
+    /**
+     * @return Produit|null
+     */
+    public function getLastRow() : ?Produit
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC');
+        $query = $qb->getQuery();
+        try {
+            return $query->setMaxResults(1)->getOneOrNullResult();
+        }catch (NonUniqueResultException $e) {
+            return null;
+        }
+
     }
 }

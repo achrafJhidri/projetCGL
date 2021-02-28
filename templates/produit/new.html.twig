@@ -3,16 +3,86 @@
 {% block title %}
     new product
 {% endblock %}
+{% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('newProduct') }}
+{% endblock %}
 
 {% block content %}
+    <div class="container">
+        <div class="card-header mb-3">
+            <h4>Créer un produit</h4>
+        </div>
+        {{ form_start(form) }}
+        <div>
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div>
+            {{ form_label(form.sellPrice) }}
+            {{ form_widget(form.sellPrice) }}
+        </div>
+        <div>
+            {{ form_label(form.gamme) }}
+            {{ form_widget(form.gamme) }}
+        </div>
+        <div class="container-produitFournitures">
+            <div>
+                {{ form_label(form.produitFournitures) }}
+                {{form_widget(form.produitFournitures)}}
+            </div>
+            <div class="form-row my-3 border p-2">
+                <div class="col-3">
+                    <input type="number" class="form-control" min="1" id="input-quantite" placeholder="quantité de la fourniture">
+                    <small id="emailHelp" class="form-text text-muted">Définissé la quantité de la fourniture selectionnée, en suite ajouter (+) au produit !</small>
+                </div>
+                <div class="col">
+                    <button type="button" id="add-quantite" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Ajouter au produit">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="col-8 border overflow-auto" id="fournitures-quantite">
+                </div>
+            </div>
 
-    {{ form_start(form) }}
-        {{ form_widget(form.name) }}
-        {{ form_widget(form.sellPrice) }}
-        {{ form_widget(form.gamme) }}
-        {{ form_widget(form.produitFournitures) }}
 
-    {{ form_end(form) }}
-
-
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <div class="container mt-5">
+        <h4>Derniers produits Ajoutés</h4>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Game</th>
+                <th scope="col">Fournitures : quantité</th>
+            </tr>
+            </thead>
+            <tbody id="container-added-product">
+                <tr>
+                    <td>{{ derniersProduits.name }}</td>
+                    <td>{{ derniersProduits.sellPrice }}</td>
+                    <td>{{ derniersProduits.gamme.name }}</td>
+                    <td>
+                        {% for fourniture in derniersProduits.produitFournitures %}
+                            <span>{{ fourniture.fourniture.name }} : {{ fourniture.quantite }}</span><br>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <a href="{{ path('index_produits') }}" type="button" class="btn btn-info btn-sm">
+            Voir tous les produits
+            <span class="badge badge-light" id="lenght-products">{{ produits|length }}</span>
+        </a>
+    </div>
 {% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     {{ encore_entry_script_tags('newProduct') }}
+ {% endblock %}

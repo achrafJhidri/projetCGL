@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ parent() }} |
+    Produits
+{% endblock %}
+{% block content %}
+    <div>
+        <h4>Page des produits #todo</h4>
+
+        <a href="{{ path('produit_create') }}" type="button" class="btn btn-primary">créer un produit</a>
+    </div>
+{% endblock %}

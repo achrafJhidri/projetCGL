@@ -10,10 +10,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class FournitureController
+ * @package App\Controller
+ * @Route("/fournitures")
+ */
 class FournitureController extends AbstractController
 {
     /**
-     * @Route("/fourniture",name="fourniture_create",methods={"POST"})
+     * @Route("/create",name="fourniture_create",methods={"POST"})
      */
     public function  createFourniture() :Response   {
         $em = $this->getDoctrine()->getManager();
@@ -51,15 +56,15 @@ class FournitureController extends AbstractController
     }
 
     /**
-     * @Route("/fourniture", name="fourniture_show",methods={"GET"})
+     * @Route("/", name="index_fournitures", methods={"GET"})
      */
-    public function showAll(): Response
+    public function indexAction(): Response
     {
          $fournitures = $this->getDoctrine()
             ->getRepository(Fourniture::class)
             ->findAll();
 
-         return $this->render('fourniture/showAll.html.twig',['fournitures' => $fournitures]);
+         return $this->render('fourniture/index.html.twig',['fournitures' => $fournitures]);
 
     }
 
