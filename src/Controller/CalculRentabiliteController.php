@@ -30,7 +30,7 @@ class CalculRentabiliteController extends AbstractController
     }
 
     /**
-     * @Route("/", name="index_calcul_rentabilite")
+     * @Route("", name="index_calcul_rentabilite")
      */
     public function indexAction()
     {

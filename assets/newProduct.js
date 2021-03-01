@@ -92,7 +92,7 @@ btnEnregistrer.addEventListener('click', (event)=>{
      }*/
     //console.log(form);
     const url = Routing.generate("produit_create");
-    console.log(url);
+    //console.log(url);
 
     const hdr = new Headers();
     hdr.append('X-Requested-With', 'XMLHttpRequest');
@@ -139,3 +139,56 @@ const makeTd = (content) => {
     return td;
 }
 
+
+/*******************************************************************/
+const selectGamme = document.getElementById('produit_gamme');
+const spinnerFourniture = document.getElementById('spinner-fourniture');
+
+selectGamme.addEventListener('change', (event)=> {
+    const idGamme = selectGamme.value;
+
+    const url = Routing.generate("get_fourniture_by_gamme");
+
+    const headers = new Headers();
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+    headers.append('idGamme', idGamme)
+
+    fetch(url, {method: 'GET', headers: headers }).then(
+        (response) => {
+            if(response.ok) {
+                response.json().then(resultat=>{
+                    const ressultData = JSON.parse(resultat);
+                    if(ressultData.status !== 200 ){
+                        alert(ressultData.message);
+                    }else {
+                        updateFournitures(ressultData.data);
+                    }
+                }).catch((error)=>console.log(error))
+            } else {
+                alert('Mauvaise réponse du réseau !');
+            }
+        }).catch((error)=>{
+        console.log(error);
+    })
+
+})
+
+const updateFournitures = (data) => {
+    removeAllChildNodes(fournitureSelect)
+    data.forEach(element=> {
+            fournitureSelect.append(makeOptionToSelect(element.id, element.name));
+    })
+}
+
+const makeOptionToSelect = (value, text) => {
+    const elementOption = document.createElement('option');
+    elementOption.setAttribute('value', value);
+
+    elementOption.innerText = text;
+    return elementOption;
+}
+const removeAllChildNodes = (parent) => {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}

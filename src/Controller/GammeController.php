@@ -37,7 +37,7 @@ class GammeController extends AbstractController
 
     /**
      * @return Response
-     * @Route("/", name="index_gamme")
+     * @Route("", name="index_gamme")
      */
     public function indexAction()
     {
@@ -64,9 +64,7 @@ class GammeController extends AbstractController
 
             $this->em->persist($gamme);
             $this->em->flush();
-            return $this->render('gamme/show.html.twig', [
-                'gamme'=> $gamme
-            ]);
+            return $this->redirectToRoute("index_gamme");
         }
 
         return $this->render('gamme/new.html.twig', [
@@ -82,10 +80,8 @@ class GammeController extends AbstractController
      */
     public function showAction(int $id)
     {
-        $produits = $this->em->getRepository(Produit::class)->getProduitsByGamme($id);
        return $this->render('gamme/show.html.twig',[
-            'gamme' => $this->em->getRepository(Gamme::class)->find($id),
-            'produits' => $produits
+            'gamme' => $this->em->getRepository(Gamme::class)->find($id)
         ]);
     }
 

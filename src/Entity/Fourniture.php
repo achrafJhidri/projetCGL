@@ -2,8 +2,10 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Repository\FournitureRepository;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 
@@ -33,9 +35,9 @@ class Fourniture
     private float $buyPrice;
 
     /**
-     * @ORM\Column (type="boolean")
+     * @ORM\Column (type="boolean", nullable=true)
      */
-    private  bool $isPriceUpdatable;
+    private  bool $isPriceUpdatable = false;
 
     /**
      * @OneToMany (targetEntity="ProduitFourniture",mappedBy="fourniture")
@@ -44,6 +46,7 @@ class Fourniture
 
     /**
      * @ManyToOne  (targetEntity="Gamme",inversedBy="fourniture")
+     * @JoinColumn(name="gamme_id", referencedColumnName="id")
      */
     private $gamme ;
 
@@ -130,5 +133,36 @@ class Fourniture
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getIsPriceUpdatable(): ?bool
+    {
+        return $this->isPriceUpdatable;
+    }
+
+    /**
+     * @return Collection|ProduitFourniture[]
+     */
+    public function getFournitureProduit(): Collection
+    {
+        return $this->fournitureProduit;
+    }
+
+    public function addFournitureProduit(ProduitFourniture $fournitureProduit): void
+    {
+        if (!$this->fournitureProduit->contains($fournitureProduit)) {
+            $this->fournitureProduit[] = $fournitureProduit;
+            $fournitureProduit->setFourniture($this);
+        }
+    }
+
+    public function removeFournitureProduit(ProduitFourniture $fournitureProduit): void
+    {
+        if ($this->fournitureProduit->removeElement($fournitureProduit)) {
+            // set the owning side to null (unless already changed)
+            if ($fournitureProduit->getFourniture() === $this) {
+                $fournitureProduit->setFourniture(null);
+            }
+        }
     }
 }

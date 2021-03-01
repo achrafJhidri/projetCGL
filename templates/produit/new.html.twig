@@ -28,8 +28,14 @@
         </div>
         <div class="container-produitFournitures">
             <div>
-                {{ form_label(form.produitFournitures) }}
+                <div class="d-flex align-content-center">
+                     {{ form_label(form.produitFournitures) }}
+                   {# <div id="spinner-fourniture" class="spinner-grow text-primary ml-2 mt-1 spinner-grow-sm hidden-spinner"  role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>#}
+                </div>
                 {{form_widget(form.produitFournitures)}}
+
             </div>
             <div class="form-row my-3 border p-2">
                 <div class="col-3">
@@ -61,16 +67,19 @@
             </tr>
             </thead>
             <tbody id="container-added-product">
-                <tr>
-                    <td>{{ derniersProduits.name }}</td>
-                    <td>{{ derniersProduits.sellPrice }}</td>
-                    <td>{{ derniersProduits.gamme.name }}</td>
-                    <td>
-                        {% for fourniture in derniersProduits.produitFournitures %}
-                            <span>{{ fourniture.fourniture.name }} : {{ fourniture.quantite }}</span><br>
-                        {% endfor %}
-                    </td>
-                </tr>
+                {% if derniersProduits is not empty %}
+                    <tr>
+                        <td>{{ derniersProduits.name }}</td>
+                        <td>{{ derniersProduits.sellPrice }}</td>
+                        <td>{{ derniersProduits.gamme.name }}</td>
+                        <td>
+                            {% for fourniture in derniersProduits.produitFournitures %}
+                                <span>{{ fourniture.fourniture.name }} : {{ fourniture.quantite }}</span><br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endif %}
+
             </tbody>
         </table>
     </div>

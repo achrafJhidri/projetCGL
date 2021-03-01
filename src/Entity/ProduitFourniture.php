@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProduitFournitureRepository;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
  * Class ProduitFourniture
@@ -20,14 +21,14 @@ class ProduitFourniture
 
     /**
     * @ORM\Id()
-    * @ORM\ManyToOne(targetEntity="Produit", inversedBy="categoryProducts")
-    * @ORM\JoinColumn(name="produit_id", referencedColumnName="id", nullable=false)
+    * @ORM\ManyToOne(targetEntity="Produit", inversedBy="produitFournitures")
+     * @JoinColumn(name="product_id", referencedColumnName="id")
     */
     private $product;
     /**
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity="Fourniture", inversedBy="categoryProducts",cascade="persist")
-     * @ORM\JoinColumn(name="fourniture_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Fourniture", inversedBy="fournitureProduit")
+     * @JoinColumn(name="fourniture_id", referencedColumnName="id")
      */
     private $fourniture;
 

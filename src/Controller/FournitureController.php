@@ -10,6 +10,7 @@ use App\Form\FournitureType;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,7 +63,7 @@ class FournitureController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="fourniture_one_show")
+     * @Route("/{id}", name="fourniture_one_show", requirements={"id":"\d+"})
      */
     public function show(int $id): Response
     {
@@ -84,7 +85,7 @@ class FournitureController extends AbstractController
     }
 
     /**
-     * @Route("/", name="index_fournitures", methods={"GET"})
+     * @Route("", name="index_fournitures", methods={"GET"})
      */
     public function indexAction(): Response
     {
@@ -96,6 +97,27 @@ class FournitureController extends AbstractController
 
     }
 
+    /**
+     * @param Request $request
+     * @Route ("/get-fourniture-by-gamme", name="get_fourniture_by_gamme", methods={"GET"}, options={"expose"=true} )
+     * @return JsonResponse
+     */
+    public function getFournitureByGamme(Request $request)
+    {
+        $response = [];
+        if ($request->isXmlHttpRequest()){
+            $idGamme = intval($request->headers->get('idGamme')[0]);
+            dump($idGamme);
+            $listFourniture = $this->em->getRepository(Fourniture::class)->findAllFournitureByGamme($idGamme);
+            $response = ['status'=>200, 'data'=> $listFourniture];
 
+            return new JsonResponse(json_encode($response));
+        }
+        else
+        {
+            $response = ['status'=>403, 'message'=>'cette route est disponible uniquement pour appelle ajax !'];
+            return new JsonResponse(json_encode($response));
+        }
+    }
 
 }

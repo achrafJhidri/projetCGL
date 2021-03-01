@@ -22,5 +22,21 @@ class FournitureRepository extends ServiceEntityRepository
         parent::__construct($registry, Fourniture::class);
     }
 
+    /**
+     * @param int $gammeId
+     * @return array
+     */
+    public function findAllFournitureByGamme(int $gammeId) :array
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->select('f.id')
+            ->addSelect('f.name')
+            ->orderBy('f.name', 'ASC')
+            ->where('f.gamme = :gammeId')
+            ->setParameter('gammeId',$gammeId)
+        ;
+        return  $qb->getQuery()->execute();
+
+    }
 
 }

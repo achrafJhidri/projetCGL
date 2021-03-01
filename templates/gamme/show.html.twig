@@ -19,7 +19,7 @@
             <th>name</th>
             <th>prix de vente</th>
         </tr>
-        {% for produit in produits %}
+        {% for produit in gamme.products %}
             <tr>
                 <td>
                     <a href="{{ path("show_produit",{'id': produit.id }) }}">

@@ -12,14 +12,24 @@
         <nav class="navbar navbar-expand-lg  sticky-top navbar-dark bg-primary">
             <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link {% if active is defined %} disabled{% endif %}" href="{{ path('app_home') }}">Accueil</a>
-                    <a class="nav-item nav-link active" href="{{ path('index_produits') }}">Produits</a>
+                    <a class="nav-item nav-link {% if active is defined %} disabled {% else %} active {% endif %}" href="{{ path('app_home') }}">
+                        <i class="fas fa-home"></i> Accueil
+                    </a>
+                    <a class="nav-item nav-link active" href="{{ path('index_produits') }}">
+                        Produits
+                    </a>
                     <a class="nav-item nav-link active" href="{{ path('index_gamme') }}">Gammes</a>
                     <a class="nav-item nav-link active" href="{{ path('index_fournitures') }}">Fourniteurs</a>
                 </div>
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#">Configuration</a>
-                    <a class="nav-item nav-link active" href="#">Se connecter</a>
+                    <a class="nav-item nav-link active" href="#">
+                        <i class="fas fa-cogs"></i>
+                        Configuration
+                    </a>
+                    <a class="nav-item nav-link active" href="#">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Se connecter
+                    </a>
                 </div>
             </div>
         </nav>
@@ -29,10 +39,16 @@
         </div>
         <div id="footer" class="card-footer  d-flex justify-content-center bg-primary text-light">
             <div>
-                <a href="#" class="btn btn-link   text-light">A propos de cette application</a>
+                <a href="#" class="btn btn-link   text-light">
+                    <i class="fas fa-info-circle"></i>
+                    A propos de cette application
+                </a>
             </div>
             <div>
-                <a href="#" class="btn btn-link text-light">Signaler un bug</a>
+                <a href="#" class="btn btn-link text-light">
+                    <i class="fas fa-bug"></i>
+                    Signaler un bug
+                </a>
             </div>
         </div>
     {% endblock %}

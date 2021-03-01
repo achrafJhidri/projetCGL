@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping AS ORM;
 use App\Repository\ProduitRepository;
 
 
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 
@@ -36,10 +37,9 @@ class Produit
      */
     private float $sellPrice;
 
-
-
     /**
      * @ManyToOne(targetEntity="Gamme",inversedBy="products")
+     * @JoinColumn(name="gamme_id", referencedColumnName="id")
      */
     private Gamme $gamme;
 
@@ -48,8 +48,6 @@ class Produit
      * @OneToMany (targetEntity="ProduitFourniture",mappedBy="product",cascade="persist")
      */
     private $produitFournitures;
-
-
 
     /**
      * Produit constructor.
@@ -101,22 +99,6 @@ class Produit
     }
 
     /**
-     * @return Gamme
-     */
-    public function getGamme(): Gamme
-    {
-        return $this->gamme;
-    }
-
-    /**
-     * @param Gamme $gamme
-     */
-    public function setGamme(Gamme $gamme): void
-    {
-        $this->gamme = $gamme;
-    }
-
-    /**
      * @return mixed
      */
     public function getProduitFournitures()
@@ -134,9 +116,36 @@ class Produit
         $produitFourniture->setFourniture($fourniture);
         $produitFourniture->setProduct($this);
 
-
         $this->produitFournitures[] = $produitFourniture;
 
+    }
+
+    public function getGamme(): ?Gamme
+    {
+        return $this->gamme;
+    }
+
+    public function setGamme(Gamme $gamme): void
+    {
+        $this->gamme = $gamme;
+    }
+
+    public function addProduitFourniture(ProduitFourniture $produitFourniture): void
+    {
+        if (!$this->produitFournitures->contains($produitFourniture)) {
+            $this->produitFournitures[] = $produitFourniture;
+            $produitFourniture->setProduct($this);
+        }
+    }
+
+    public function removeProduitFourniture(ProduitFourniture $produitFourniture): void
+    {
+        if ($this->produitFournitures->removeElement($produitFourniture)) {
+            // set the owning side to null (unless already changed)
+            if ($produitFourniture->getProduct() === $this) {
+                $produitFourniture->setProduct(null);
+            }
+        }
     }
 
 

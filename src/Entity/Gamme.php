@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Repository\GammeRepository;
 use Doctrine\ORM\Mapping\OneToMany;
-use function Sodium\add;
 
 /**
  * Class Gamme
@@ -30,7 +29,7 @@ class Gamme
     private string $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Produit",mappedBy="gamme")
+     * @ORM\OneToMany(targetEntity="Produit", mappedBy="gamme")
      */
     private  $products ;
 
@@ -40,51 +39,12 @@ class Gamme
     private $fournitures;
 
     /**
-     * @return Collection
-     */
-    public function getProducts() : Collection
-    {
-        return $this->products;
-    }
-
-    /**
-     * @param Collection $products
-     */
-    public function setProducts(Collection $products): void
-    {
-        $this->products = $products;
-    }
-    public function addProduct (Produit  $produit) : void
-    {
-        if (!$this->products->contains($produit)) {
-            $this->products[] = $produit;
-            $produit->setGamme($this);
-        }
-    }
-    /**
-     * @return mixed
-     */
-    public function getFournitures()
-    {
-        return $this->fournitures;
-    }
-
-    /**
-     * @param Fourniture $fourniture
-     */
-    public function addFourniture( Fourniture $fourniture): void
-    {
-        $this->fournitures[] = $fourniture;
-    }
-
-
-
-    /**
      * Gamme constructor.
      */
     public function __construct()
     {
         $this->products=new ArrayCollection();
+        $this->fournitures = new ArrayCollection();
     }
 
     /**
@@ -112,6 +72,59 @@ class Gamme
     }
 
 
+    /**
+     * @return mixed
+     */
+    public function getFournitures()
+    {
+        return $this->fournitures;
+    }
+
+    /**
+     * @param Fourniture $fourniture
+     */
+    public function addFourniture( Fourniture $fourniture): void
+    {
+        $this->fournitures[] = $fourniture;
+    }
+
+    /**
+     * @return Collection|Produit[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Produit $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setGamme($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Produit $product): void
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getGamme() === $this) {
+                $product->setGamme(null);
+            }
+        }
+    }
+
+    public function removeFourniture(Fourniture $fourniture): void
+    {
+        if ($this->fournitures->removeElement($fourniture)) {
+            // set the owning side to null (unless already changed)
+            if ($fourniture->getGamme() === $this) {
+                $fourniture->setGamme(null);
+            }
+        }
+    }
 
 
 

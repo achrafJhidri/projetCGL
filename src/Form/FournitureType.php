@@ -34,7 +34,8 @@ class FournitureType extends AbstractType
                 "label"=> "prix d'achat"
             ])
             ->add('isPriceUpdatable',CheckboxType::class,[
-                "label"=> 'prix modifiable ?'
+                "label"=> 'prix modifiable ?',
+                'required'=>false
             ])
 
             ->add('Sauvegarder la fourniture', SubmitType::class, [
