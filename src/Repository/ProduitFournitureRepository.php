@@ -4,11 +4,15 @@
 namespace App\Repository;
 
 use App\Entity\ProduitFourniture;
+use App\Entity\Traits\Constantes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class ProduitFournitureRepository extends ServiceEntityRepository
 {
+    use Constantes;
     /**
      * ProduitFournitureRepository constructor.
      * @param ManagerRegistry $registry
@@ -24,10 +28,10 @@ class ProduitFournitureRepository extends ServiceEntityRepository
      */
     public function getFournituresForProduct(int $productId) : array {
         $qb = $this->createQueryBuilder('p')
-
             ->where('p.product = :productId')
             ->setParameter('productId',$productId);
         ;
         return $qb->getQuery()->execute();
     }
+
 }

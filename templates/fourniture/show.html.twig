@@ -6,22 +6,36 @@
 
 {% block content %}
 
-    <h1>
-        id :    {{ fourniture.id }}
-    </h1>
-    <h1>
-        name :    {{ fourniture.name }}
-    </h1>
-    <h1>
-        prix d'achat  :    {{ fourniture.buyPrice }}
-    </h1>
-    <h1>
-        gamme :    {{ fourniture.gamme.name }}
-    </h1>
-    <h1>
-        prix modifiable ? :    {% if fourniture.priceUpdatable %} Oui {% else %} non {% endif %}
-    </h1>
-
+    <div class="card" >
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-sm-around align-items-center ">
+                    <h5  class="card-title flex-fill text-center">Nom </h5>
+                    <div class="flex-fill text-center">{{ fourniture.name }}</div>
+                </li>
+                <li class="list-group-item d-flex justify-content-sm-around align-items-center">
+                    <h5 class="card-title">Gamme</h5>
+                    <div >{{ fourniture.gamme.name }}</div>
+                </li>
+                <li class="list-group-item d-flex justify-content-sm-around align-items-center">
+                    <h5 class="card-title flex-fill text-center">Prix</h5>
+                    <div class="flex-fill text-center" >{{ fourniture.buyPrice }}</div>
+                </li>
+                <li class="list-group-item d-flex align-items-center justify-content-sm-around">
+                    <h5 class="card-title">Modifiable</h5>
+                    <span >{% if fourniture.priceUpdatable %} Oui {% else %}Non {% endif %}   </span>
+                </li>
+            </ul>
+            <div class="d-flex justify-content-center">
+                <a type="button" class="btn btn-info mr-2" href="#">
+                    Editer
+                </a>
+                <a type="button" class="btn btn-danger" href="#">
+                    Supprimer
+                </a>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}

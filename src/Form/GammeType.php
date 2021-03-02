@@ -21,7 +21,7 @@ class GammeType  extends AbstractType
                 "label"=> "Nom de la gamme",
                 'attr'=> ['class'=> 'form-control mb-2']
             ])
-            ->add('Sauvegarder la gamme', SubmitType::class, [
+            ->add('enregistrer', SubmitType::class, [
                 'attr'=>['class'=>'btn btn-primary']
             ])
         ;

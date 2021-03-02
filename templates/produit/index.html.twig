@@ -5,34 +5,53 @@
 {% endblock %}
 {% block content %}
     <div>
-        <h4>Page des produits #todo</h4>
+        <div class="card-header mb-3">
+            <h4>
+                Produits
+            </h4>
+        </div>
 
-
-            <table>
-                <tr>
-                    <th>name</th>
-                    <th>gamme</th>
-                    <th>prix de vente</th>
-                </tr>
-                {% for produit in produits %}
-                    <tr>
-                        <td>
-                            <a href="{{ path("show_produit",{'id': produit.id }) }}">
+        <table  class="table table-striped">
+            <tr>
+                <th {% if pagination.isSorted('p.name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Nom', 'p.name') }}
+                </th>
+                <th  {% if pagination.isSorted('p.gamme') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Gamme', 'p.gamme') }}
+                </th>
+                <th  {% if pagination.isSorted('p.sellPrice') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Prix de vente', 'p.sellPrice') }}
+                </th>
+            </tr>
+            {% for produit in pagination %}
+                <tr   >
+                    <td>
+                        <a href="{{ path("show_produit",{'id': produit.id }) }}">
                             {{ produit.name }}
-                            </a>
-                        </td>
-                        <td>{{ produit.gamme.name }}</td>
-                        <td>{{ produit.sellPrice }}</td>
-                    </tr>
-                {% endfor %}
+                        </a>
+                    </td>
+                    <td>
+                        {{ produit.gamme.name }}
+                    </td>
+                    <td>
+                        {{ produit.sellPrice }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
 
-            </table>
+        <div class="navigation d-flex justify-content-between">
+            <div>
+                Total result = {{ pagination.getTotalItemCount }}
+            </div>
 
+            {{ knp_pagination_render(pagination) }}
+        </div>
 
-
-
-
-
-        <a href="{{ path('produit_create') }}" type="button" class="btn btn-primary">créer un produit</a>
+        <div class="d-flex justify-content-center">
+            <a type="button" class="btn btn-info" href="{{ path("produit_create") }}">
+                Créer
+            </a>
+        </div>
     </div>
 {% endblock %}

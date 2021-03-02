@@ -6,24 +6,70 @@
 
 {% block content %}
 
-    <h1>
-        id :    {{ produit.id }}
-    </h1>
-    <h1>
-        name :    {{ produit.name }}
-    </h1>
-    <h1>
-        prix de vente :    {{ produit.sellPrice }}
-    </h1>
-    <h1>
-        gamme :    {{ produit.gamme.name }}
-    </h1>
-{#    {% for fourniture in fournitures %}#}
-{#        <h2>{{ fourniture.name }}   {{ fourniture.buyPrice }}</h2>#}
+    <div class="card-header mb-3">
+        <h4>
+            Produit : {{ produit.name }}
+        </h4>
 
-{#    {% else %}#}
-{#        <h1>0 fournitures </h1>#}
-{#    {% endfor %}#}
+    </div>
+
+    <div>
+        <ul class="list-group">
+            <li class="list-group-item">Gamme {{ produit.gamme.name }}</li>
+            <li class="list-group-item">Prix de vente {{ produit.sellPrice }}</li>
+        </ul>
+    </div>
+
+    <h5 class="ml-2 mb-2"> Fournitures </h5>
+
+
+
+
+
+    <table  class="table table-striped">
+        <tr>
+            <th {% if pagination.isSorted('p.produitFournitures.fourniture.name') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Nom', 'p.produitFournitures.fourniture.name') }}
+            </th>
+
+            <th  {% if pagination.isSorted('p.produitFournitures.quantite') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Quantité', 'p.produitFournitures.quantite') }}
+            </th>
+        </tr>
+        {% for ligne in pagination %}
+        {% for productFourniture in ligne.produitFournitures.getValues %}
+            <tr>
+                <td>
+                    <a href="{{ path("fourniture_one_show",{'id': productFourniture.fourniture.id }) }}">
+                        {{ productFourniture.fourniture.name }}
+                    </a>
+                </td>
+                <td>
+                    {{  productFourniture.quantite }}
+                </td>
+            </tr>
+        {% endfor %}
+
+        {% endfor %}
+    </table>
+
+    <div class="navigation d-flex justify-content-between">
+        <div>
+            Total result = {{ pagination.getTotalItemCount }}
+        </div>
+
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <a type="button" class="btn btn-info mr-2" href="#">
+            Editer
+        </a>
+        <a type="button" class="btn btn-danger" href="#">
+            Supprimer
+        </a>
+    </div>
+
 
 
 

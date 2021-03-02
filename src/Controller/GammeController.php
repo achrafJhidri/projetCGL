@@ -8,7 +8,9 @@ use App\Entity\Gamme;
 
 use App\Entity\Produit;
 use App\Form\GammeType;
+use ContainerDryPwzK\PaginatorInterface_82dac15;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,14 +38,16 @@ class GammeController extends AbstractController
     }
 
     /**
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return Response
      * @Route("", name="index_gamme")
      */
-    public function indexAction()
+    public function indexAction(PaginatorInterface $paginator, Request $request)
     {
-        return $this->render('gamme/index.html.twig', [
-            'gammes'=> $this->em->getRepository(Gamme::class)->findAll()
-        ]);
+        $pagination =  $this->em->getRepository(Gamme::class)->getAllWithPagination($paginator,$request->query->getInt('page', 1));
+
+        return $this->render('gamme/index.html.twig',['pagination'=>$pagination]);
     }
 
     /**
@@ -74,14 +78,19 @@ class GammeController extends AbstractController
     }
 
     /**
-     * @param int $id
-     * @Route("/{id}", name="show_one_gamme")
-     *
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @param int $idGamme
+     * @return Response
+     * @Route("/{idGamme}", name="show_one_gamme")
      */
-    public function showAction(int $id)
+    public function showAction(PaginatorInterface $paginator, Request $request, int $idGamme)
     {
+        $pagination =  $this->em->getRepository(Produit::class)->findAllProductsByGammeId($paginator,$request->query->getInt('page', 1),$idGamme);
+
        return $this->render('gamme/show.html.twig',[
-            'gamme' => $this->em->getRepository(Gamme::class)->find($id)
+            'gamme' => $this->em->getRepository(Gamme::class)->find($idGamme),
+            'pagination'=>$pagination
         ]);
     }
 

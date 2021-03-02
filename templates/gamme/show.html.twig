@@ -5,32 +5,56 @@
 {% endblock %}
 
 {% block content %}
+    <div class="card-header mb-3">
+        <h4>
+            Gamme : {{ gamme.name }}
+        </h4>
+    </div>
 
-    <h1>
-        id :    {{ gamme.id }}
-    </h1>
-    <h1>
-        name :    {{ gamme.name }}
-    </h1>
 
-    <p> Produits de la gamme {{ gamme.name }}</p>
-    <table>
+
+    <h5 class="ml-2 mb-2"> Produits </h5>
+
+    <table  class="table table-striped">
         <tr>
-            <th>name</th>
-            <th>prix de vente</th>
+            <th {% if pagination.isSorted('p.name') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Nom', 'p.name') }}
+            </th>
+
+            <th  {% if pagination.isSorted('p.sellPrice') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(pagination, 'Prix de vente', 'p.sellPrice') }}
+            </th>
         </tr>
-        {% for produit in gamme.products %}
-            <tr>
+        {% for produit in pagination %}
+            <tr   >
                 <td>
                     <a href="{{ path("show_produit",{'id': produit.id }) }}">
                         {{ produit.name }}
                     </a>
                 </td>
-                <td>{{ produit.sellPrice }}</td>
+                <td>
+                    {{ produit.sellPrice }}
+                </td>
             </tr>
         {% endfor %}
     </table>
 
+    <div class="navigation d-flex justify-content-between">
+        <div>
+            Total result = {{ pagination.getTotalItemCount }}
+        </div>
+
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <a type="button" class="btn btn-info mr-2" href="#">
+            Editer
+        </a>
+        <a type="button" class="btn btn-danger" href="#">
+            Supprimer
+        </a>
+    </div>
 
 
 {% endblock %}

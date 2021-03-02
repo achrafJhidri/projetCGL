@@ -8,20 +8,37 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="container">
         <div class="card-header mb-3">
             <h4>Créer une fourniture</h4>
         </div>
-        {{ form(form) }}
+        {{ form_start(form) }}
+        <div >
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div >
+            {{ form_label(form.buyPrice) }}
+            {{ form_widget(form.buyPrice) }}
+        </div>
+        <div >
+            {{ form_label(form.gamme) }}
+            {{ form_widget(form.gamme) }}
+        </div>
+        <div >
+            {{ form_label(form.isPriceUpdatable) }}
+            {{ form_widget(form.isPriceUpdatable) }}
+        </div>
+        <div class="container d-flex justify-content-center">
+            {{ form_widget(form.enregistrer) }}
+        </div>
+
+        {{ form_end(form) }}
 
 
     </div>
 
-    <div class="container">
-        <a href="{{ path('index_fournitures') }}" type="button" class="btn btn-info btn-sm">
-            Voir toutes les fourniture
-            <span class="badge badge-light" id="lenght-products">{{ numberOfFournitures }}</span>
-        </a>
-    </div>
+
 {% endblock %}
 

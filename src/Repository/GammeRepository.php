@@ -5,13 +5,17 @@ namespace App\Repository;
 
 
 use App\Entity\Gamme;
+use App\Entity\Traits\Constantes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
+
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class GammeRepository extends ServiceEntityRepository
 {
 
+    use Constantes;
     /**
      * GammeRepository constructor.
      * @param ManagerRegistry $registry
@@ -21,6 +25,18 @@ class GammeRepository extends ServiceEntityRepository
         parent::__construct($registry, Gamme::class);
     }
 
+    public function getAllWithPagination(PaginatorInterface $paginator,int $pageNumber ) : PaginationInterface
+    {
+        $query = $this->createQueryBuilder('g')
+            ->orderBy('g.id','DESC')
+            ->getQuery();
+
+        return $pagination = $paginator->paginate(
+            $query,
+            $pageNumber,
+            self::$RESULT_NUMBER
+        );
+    }
     /**
      * @return array|null
      */

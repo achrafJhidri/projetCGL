@@ -2,20 +2,37 @@
 {% block title %}
     {{ parent() }} |
     Fourniture
+
 {% endblock %}
 {% block content %}
     <div>
 
-        <table>
+        <div class="card-header mb-3">
+           <h4>
+           Fournitures
+           </h4>
+        </div>
+
+        <table  class="table table-striped">
             <tr>
-                <th>name</th>
-                <th>gamme</th>
-                <th>prix d'achat</th>
-                <th>prix modifiable </th>
-                <th></th>
+
+
+                <th {% if pagination.isSorted('f.name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Nom', 'f.name') }}
+                </th>
+                <th  {% if pagination.isSorted('f.gamme.name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Gamme', 'f.gamme.name') }}
+                </th>
+                <th  {% if pagination.isSorted('f.buyPrice') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Prix d\'achat', 'f.buyPrice') }}
+                </th>
+                <th  {% if pagination.isSorted('f.isPriceUpdatable') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Prix modifiable', 'f.isPriceUpdatable') }}
+                </th>
+
             </tr>
-            {% for fourniture in fournitures %}
-                <tr>
+            {% for fourniture in pagination %}
+                <tr   >
                     <td>
                         <a href="{{ path("fourniture_one_show",{'id': fourniture.id }) }}">
                             {{ fourniture.name }}
@@ -28,19 +45,24 @@
                         {{ fourniture.buyPrice }}
                     </td>
                     <td>
-                        {% if fourniture.priceUpdatable  %} Oui {% else  %} Non {% endif %}
+                        {% if fourniture.isPriceUpdatable  %} Oui {% else  %} Non {% endif %}
                     </td>
-
                 </tr>
             {% endfor %}
-
         </table>
+        <div class="navigation d-flex justify-content-between">
+            <div>
+                Total result = {{ pagination.getTotalItemCount }}
+            </div>
 
-        <br>
-        <br>
-        <br>
-        <a href="{{ path("fourniture_create") }}">
-            créer une fourniture
-        </a>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <a type="button" class="btn btn-info" href="{{ path("fourniture_create") }}">
+                Créer
+            </a>
+        </div>
+
     </div>
 {% endblock %}

@@ -5,28 +5,39 @@
 {% endblock %}
 {% block content %}
     <div>
-
-        <table>
+        <div class="card-header mb-3">
+            <h4>
+                Gammes
+            </h4>
+        </div>
+        <table  class="table table-striped">
             <tr>
-                <th>name</th>
+                <th {% if pagination.isSorted('g.name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'Nom', 'g.name') }}
+                </th>
             </tr>
-            {% for gamme in gammes %}
-                <tr>
+            {% for gamme in pagination %}
+                <tr  >
                     <td>
-                        <a href="{{ path("show_one_gamme",{'id': gamme.id }) }}">
+                        <a href="{{ path("show_one_gamme",{'idGamme': gamme.id }) }}">
                             {{ gamme.name }}
                         </a>
                     </td>
                 </tr>
             {% endfor %}
-
         </table>
-        <br>
-        <br>
-        <br>
-        <a href="{{ path("create_gamme") }}">
-            créer une gamme
+        <div class="navigation d-flex justify-content-between">
+            <div>
+                Total result = {{ pagination.getTotalItemCount }}
+            </div>
+            {{ knp_pagination_render(pagination) }}
+        </div>
 
-        </a>
+        <div class="d-flex justify-content-center">
+            <a type="button" class="btn btn-info" href="{{ path("create_gamme") }}">
+                Créer
+            </a>
+        </div>
+
     </div>
 {% endblock %}

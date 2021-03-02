@@ -9,6 +9,7 @@ use App\Entity\Fourniture;
 use App\Form\FournitureType;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,9 +37,25 @@ class FournitureController extends AbstractController
         $this->em = $em;
     }
 
+    /**
+     * @Route("", name="index_fournitures", methods={"GET"})
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
+    public function indexAction(PaginatorInterface $paginator, Request $request): Response
+    {
+        $pagination = $this->em->getRepository(Fourniture::class)
+            ->getAllWithPagination($paginator,$request->query->getInt('page', 1));
+
+        return $this->render('fourniture/index.html.twig', ['pagination' => $pagination]);
+
+    }
 
     /**
      * @Route("/create",name="fourniture_create")
+     * @param Request $request
+     * @return Response
      */
     public function  createFourniture(Request $request ) :Response   {
        $fourniture = new Fourniture();
@@ -49,9 +66,9 @@ class FournitureController extends AbstractController
            $this->em->persist($fourniture);
            $this->em->flush();
 
-           return $this->render( 'fourniture/show.html.twig',[
-               'fourniture'=>$fourniture
-           ]);
+
+
+           return $this->redirectToRoute('index_fournitures');
        }
 
        $nb = sizeof($this->getDoctrine()->getRepository(Fourniture::class)->findAll());
@@ -84,18 +101,7 @@ class FournitureController extends AbstractController
 
     }
 
-    /**
-     * @Route("", name="index_fournitures", methods={"GET"})
-     */
-    public function indexAction(): Response
-    {
-         $fournitures = $this->getDoctrine()
-            ->getRepository(Fourniture::class)
-            ->findAll();
 
-         return $this->render('fourniture/index.html.twig',['fournitures' => $fournitures]);
-
-    }
 
     /**
      * @param Request $request
@@ -119,5 +125,7 @@ class FournitureController extends AbstractController
             return new JsonResponse(json_encode($response));
         }
     }
+
+
 
 }

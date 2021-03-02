@@ -7,8 +7,10 @@ namespace App\Controller;
 use App\Entity\Fourniture;
 use App\Entity\Gamme;
 use App\Entity\Produit;
+use App\Entity\ProduitFourniture;
 use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,25 +43,29 @@ class ProduitController extends AbstractController
      * @return Response
      * @Route ("", name="index_produits")
      */
-    public function indexAction(): Response
+    public function indexAction(PaginatorInterface $paginator, Request $request)
     {
-        return $this->render('produit/index.html.twig', [
-            'produits' => $this->em->getRepository(Produit::class)->findAll()
-        ]);
+        $pagination =  $this->em->getRepository(Produit::class)->getAllWithPagination($paginator,$request->query->getInt('page', 1));
+        return $this->render('produit/index.html.twig',['pagination'=>$pagination]);
     }
 
     /**
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @param int $id
-     * @Route("/{id}",name="show_produit",requirements={"id"="\d+"})
      * @return Response
+     * @Route("/{id}",name="show_produit",requirements={"id"="\d+"})
      */
-    public function showProduit (int $id): Response
+    public function showProduit (PaginatorInterface $paginator, Request $request,int $id): Response
     {
+        $pagination =  $this->em->getRepository(Produit::class)
+            ->findAllFournituresByProduitId($paginator,$request->query->getInt('page', 1),$id);
 
         $produit = $this->em->getRepository(Produit::class)->find($id);
 
         return $this->render('produit/show.html.twig',[
-            'produit' => $produit
+            'produit' => $produit,
+            'pagination' => $pagination
         ]);
     }
 
