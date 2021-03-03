@@ -87,12 +87,9 @@ btnEnregistrer.addEventListener('click', (event)=>{
     form.append('price', formSubmit.elements["produit[sellPrice]"].value );
     form.append('gamme', formSubmit.elements["produit[gamme]"].value);
     form.append("fournitureProduit", JSON.stringify(tabFournitureProduits));
-    /*for (var value of form.values()) {
-        console.log(value);
-     }*/
-    //console.log(form);
+
     const url = Routing.generate("produit_create");
-    //console.log(url);
+
 
     const hdr = new Headers();
     hdr.append('X-Requested-With', 'XMLHttpRequest');

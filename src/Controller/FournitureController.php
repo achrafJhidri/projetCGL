@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Fourniture;
 
+use App\Form\Fourniture\FournitureUpdateType;
 use App\Form\FournitureType;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -57,7 +58,7 @@ class FournitureController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function  createFourniture(Request $request ) :Response   {
+    public function  createAction(Request $request ) :Response   {
        $fourniture = new Fourniture();
        $form = $this->createForm(FournitureType::class,$fourniture);
 
@@ -65,24 +66,18 @@ class FournitureController extends AbstractController
        if($form->isSubmitted() && $form->isValid()){
            $this->em->persist($fourniture);
            $this->em->flush();
-
-
-
            return $this->redirectToRoute('index_fournitures');
        }
 
-       $nb = sizeof($this->getDoctrine()->getRepository(Fourniture::class)->findAll());
-
        return $this->render('fourniture/new.html.twig',[
            'form' => $form->createView(),
-           'numberOfFournitures' => $nb,
        ]);
     }
 
     /**
      * @Route("/{id}", name="fourniture_one_show", requirements={"id":"\d+"})
      */
-    public function show(int $id): Response
+    public function showAction(int $id): Response
     {
         $fourniture = $this->getDoctrine()
             ->getRepository(Fourniture::class)
@@ -97,8 +92,48 @@ class FournitureController extends AbstractController
         return $this->render('fourniture/show.html.twig',[
             'fourniture' => $fourniture
         ]);
+    }
 
+    /**
+     * @Route("/{id}/edit", name="fourniture_edit", requirements={"id":"\d+"})
+     */
+    public function editAction(int $id,Request $request): Response
+    {
+        $fourniture = $this->getDoctrine()
+            ->getRepository(Fourniture::class)
+            ->find($id);
 
+        if (!$fourniture) {
+            throw $this->createNotFoundException(
+                'No fourniture found for id '.$id
+            );
+        }
+
+        $form = $this->createForm(FournitureUpdateType::class,$fourniture);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->persist($fourniture);
+            $this->em->flush();
+            return $this->redirectToRoute('index_fournitures');
+        }
+
+        return $this->render('fourniture/edit.html.twig',[
+            'form'=>$form->createView()
+        ]);
+    }
+    /**
+     * @Route("/{id}/delete", name="fourniture_remove", requirements={"id":"\d+"})
+     */
+    public function removeAction(int $id,Request $request): Response
+    {
+        $fourniture = $this->getDoctrine()
+            ->getRepository(Fourniture::class)
+            ->find($id);
+
+        $this->em->remove($fourniture);
+        $this->em->flush();
+        return $this->redirectToRoute('index_fournitures');
     }
 
 

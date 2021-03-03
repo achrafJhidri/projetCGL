@@ -22,6 +22,9 @@
                 <th  {% if pagination.isSorted('p.sellPrice') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Prix de vente', 'p.sellPrice') }}
                 </th>
+                <th>
+                    Edit
+                </th>
             </tr>
             {% for produit in pagination %}
                 <tr   >
@@ -36,6 +39,18 @@
                     <td>
                         {{ produit.sellPrice }}
                     </td>
+
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <a type="button" class="btn btn-info mr-2" href="{{ path('produit_edit',{'id':produit.id}) }}">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a type="button" class="btn btn-danger" href="{{ path('produit_remove',{'id':produit.id}) }}">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+
                 </tr>
             {% endfor %}
         </table>

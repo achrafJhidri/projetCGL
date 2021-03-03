@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | new Fourniture
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="card-header mb-3">
+            <h4>Signaler un bug</h4>
+        </div>
+        {{ form_start(form) }}
+        <div >
+            {{ form_label(form.from) }}
+            {{ form_widget(form.from) }}
+        </div>
+        <div >
+            {{ form_label(form.subject) }}
+            {{ form_widget(form.subject) }}
+        </div>
+        <div >
+            {{ form_label(form.content) }}
+            {{ form_widget(form.content) }}
+        </div>
+        <div class="container d-flex justify-content-center">
+            {{ form_widget(form.envoyer) }}
+        </div>
+
+        {{ form_end(form) }}
+
+
+    </div>
+
+
+{% endblock %}
+

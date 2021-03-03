@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | Edit Gamme
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card-header mb-3">
+            <h4>Modifier la gamme</h4>
+        </div>
+        {{ form_start(form) }}
+        <div>
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="d-flex justify-content-center">
+            {{ form_widget(form.enregistrer) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+
+{% endblock %}
+

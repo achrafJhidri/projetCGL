@@ -94,4 +94,53 @@ class GammeController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{id}/edit", name="gamme_edit", requirements={"id":"\d+"})
+     * @param int $id
+     * @param Request $request
+     * @return Response
+     */
+    public function editAction(int $id,Request $request): Response
+    {
+        $gamme = $this->getDoctrine()
+            ->getRepository(Gamme::class)
+            ->find($id);
+
+        if (!$gamme) {
+            throw $this->createNotFoundException(
+                'No fourniture found for id '.$id
+            );
+        }
+
+        $form = $this->createForm(GammeType::class,$gamme);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->persist($gamme);
+            $this->em->flush();
+            return $this->redirectToRoute('index_gamme');
+        }
+
+        return $this->render('gamme/edit.html.twig',[
+            'form'=>$form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/delete", name="gamme_remove", requirements={"id":"\d+"})
+     * @param int $id
+     * @param Request $request
+     * @return Response
+     */
+    public function removeAction(int $id,Request $request): Response
+    {
+        $gamme = $this->getDoctrine()
+            ->getRepository(Gamme::class)
+            ->find($id);
+
+        $this->em->remove($gamme);
+        $this->em->flush();
+        return $this->redirectToRoute('index_gamme');
+    }
+
 }

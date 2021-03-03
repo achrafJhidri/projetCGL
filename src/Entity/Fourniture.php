@@ -40,7 +40,7 @@ class Fourniture
     private  bool $isPriceUpdatable = false;
 
     /**
-     * @OneToMany (targetEntity="ProduitFourniture",mappedBy="fourniture")
+     * @OneToMany (targetEntity="ProduitFourniture",mappedBy="fourniture",cascade="all")
      */
     private  $fournitureProduit;
 

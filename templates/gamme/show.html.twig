@@ -48,10 +48,10 @@
     </div>
 
     <div class="d-flex justify-content-center">
-        <a type="button" class="btn btn-info mr-2" href="#">
+        <a type="button" class="btn btn-info mr-2" href="{{path('gamme_edit',{'id':gamme.id}) }}" >
             Editer
         </a>
-        <a type="button" class="btn btn-danger" href="#">
+        <a type="button" class="btn btn-danger"  href="{{path('gamme_remove',{'id':gamme.id}) }}">
             Supprimer
         </a>
     </div>

@@ -7,7 +7,6 @@ namespace App\Controller;
 use App\Entity\Fourniture;
 use App\Entity\Gamme;
 use App\Entity\Produit;
-use App\Entity\ProduitFourniture;
 use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -40,6 +39,8 @@ class ProduitController extends AbstractController
     }
 
     /**
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return Response
      * @Route ("", name="index_produits")
      */
@@ -56,7 +57,7 @@ class ProduitController extends AbstractController
      * @return Response
      * @Route("/{id}",name="show_produit",requirements={"id"="\d+"})
      */
-    public function showProduit (PaginatorInterface $paginator, Request $request,int $id): Response
+    public function showAction(PaginatorInterface $paginator, Request $request,int $id): Response
     {
         $pagination =  $this->em->getRepository(Produit::class)
             ->findAllFournituresByProduitId($paginator,$request->query->getInt('page', 1),$id);
@@ -74,7 +75,7 @@ class ProduitController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function  createProduit(Request $request) :Response
+    public function  createAction(Request $request) :Response
     {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class,$produit);
@@ -98,9 +99,7 @@ class ProduitController extends AbstractController
             $this->em->flush();
 
             $getProduit = $this->em->getRepository(Produit::class)->findOneBy(['name'=> $produitName]);
-            //dump($getProduit->getProduitFournitures()->getValues());
 
-            //préparer la reponse
             $produitFournitures = [];
             foreach ($getProduit->getProduitFournitures()->getValues() as $element){
                 array_push($produitFournitures, ["quantite"=>$element->getQuantite(),
@@ -113,7 +112,6 @@ class ProduitController extends AbstractController
                 'gamme'=>['name'=>$getProduit->getGamme()->getName()],
                 'produitFournitures'=> $produitFournitures,
             );
-            //dump(json_encode($response));
             return new JsonResponse(json_encode($response));
         }
         else
@@ -124,7 +122,56 @@ class ProduitController extends AbstractController
                 'derniersProduits'=> $this->em->getRepository(Produit::class)->getLastRow()
             ]);
         }
+    }
 
+    /**
+     * @Route("/{id}/edit", name="produit_edit", requirements={"id":"\d+"})
+     * @param int $id
+     * @param Request $request
+     * @return Response
+     */
+    public function editAction(int $id,Request $request): Response
+    {
+        $produit = $this->getDoctrine()
+            ->getRepository(Produit::class)
+            ->find($id);
+
+        if (!$produit) {
+            throw $this->createNotFoundException(
+                'No produit found for id '.$id
+            );
+        }
+
+        $form = $this->createForm(ProduitType::class,$produit);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->persist($produit);
+            $this->em->flush();
+            return $this->redirectToRoute('index_produits');
+        }
+
+        return $this->render('produit/edit.html.twig',[
+            'form'=>$form->createView() ,
+            'produit'=>$produit
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/delete", name="produit_remove", requirements={"id":"\d+"})
+     * @param int $id
+     * @param Request $request
+     * @return Response
+     */
+    public function removeAction(int $id,Request $request): Response
+    {
+        $produit = $this->getDoctrine()
+            ->getRepository(Produit::class)
+            ->find($id);
+
+        $this->em->remove($produit);
+        $this->em->flush();
+        return $this->redirectToRoute('index_fournitures');
     }
 
 }

@@ -29,12 +29,12 @@ class Gamme
     private string $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Produit", mappedBy="gamme")
+     * @ORM\OneToMany(targetEntity="Produit", mappedBy="gamme",cascade="remove")
      */
     private  $products ;
 
     /**
-     * @OneToMany(targetEntity="Fourniture", mappedBy="gamme")
+     * @OneToMany(targetEntity="Fourniture", mappedBy="gamme",cascade="remove")
      */
     private $fournitures;
 

@@ -29,6 +29,9 @@
                 <th  {% if pagination.isSorted('f.isPriceUpdatable') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Prix modifiable', 'f.isPriceUpdatable') }}
                 </th>
+                <th>
+                    Edit
+                </th>
 
             </tr>
             {% for fourniture in pagination %}
@@ -46,6 +49,16 @@
                     </td>
                     <td>
                         {% if fourniture.isPriceUpdatable  %} Oui {% else  %} Non {% endif %}
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <a type="button" class="btn btn-info mr-2" href="{{ path('fourniture_edit',{'id':fourniture.id}) }}">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a type="button" class="btn btn-danger" href="{{ path('fourniture_remove',{'id':fourniture.id}) }}">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
