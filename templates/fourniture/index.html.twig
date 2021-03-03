@@ -26,12 +26,10 @@
                 <th  {% if pagination.isSorted('f.buyPrice') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Prix d\'achat', 'f.buyPrice') }}
                 </th>
-                <th  {% if pagination.isSorted('f.isPriceUpdatable') %} class="sorted"{% endif %}>
+                <th  colspan="2" {% if pagination.isSorted('f.isPriceUpdatable') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Prix modifiable', 'f.isPriceUpdatable') }}
                 </th>
-                <th>
-                    Edit
-                </th>
+
 
             </tr>
             {% for fourniture in pagination %}

@@ -49,6 +49,9 @@ ajouterUneQuantite.addEventListener('click', (event)=>{
         if(index === -1)
         {
 
+
+
+
             tabFournitureProduits.push(obj);
             span.append(spanContent, spanClose);
             containerFournitureQuantite.insertBefore(span, containerFournitureQuantite.firstChild);

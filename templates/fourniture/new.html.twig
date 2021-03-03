@@ -10,33 +10,8 @@
 {% block content %}
 
     <div class="container">
-        <div class="card-header mb-3">
-            <h4>Créer une fourniture</h4>
-        </div>
-        {{ form_start(form) }}
-        <div >
-            {{ form_label(form.name) }}
-            {{ form_widget(form.name) }}
-        </div>
-        <div >
-            {{ form_label(form.buyPrice) }}
-            {{ form_widget(form.buyPrice) }}
-        </div>
-        <div >
-            {{ form_label(form.gamme) }}
-            {{ form_widget(form.gamme) }}
-        </div>
-        <div >
-            {{ form_label(form.isPriceUpdatable) }}
-            {{ form_widget(form.isPriceUpdatable) }}
-        </div>
-        <div class="container d-flex justify-content-center">
-            {{ form_widget(form.enregistrer) }}
-        </div>
-
-        {{ form_end(form) }}
-
-
+        {% import "/fourniture/macro/newAndEdit.html.twig" as forms %}
+        {{ forms.commonForm(form,'Créer') }}
     </div>
 
 

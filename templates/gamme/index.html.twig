@@ -12,12 +12,10 @@
         </div>
         <table  class="table table-striped">
             <tr>
-                <th {% if pagination.isSorted('g.name') %} class="sorted"{% endif %}>
+                <th  colspan="2" {% if pagination.isSorted('g.name') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Nom', 'g.name') }}
                 </th>
-                <th>
-                    Edit
-                </th>
+
             </tr>
             {% for gamme in pagination %}
                 <tr  >

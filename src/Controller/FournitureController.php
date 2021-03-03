@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Entity\Fourniture;
 
 use App\Form\Fourniture\FournitureUpdateType;
-use App\Form\FournitureType;
+use App\Form\Fourniture\FournitureType;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Knp\Component\Pager\PaginatorInterface;

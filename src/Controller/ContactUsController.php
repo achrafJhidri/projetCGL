@@ -21,31 +21,29 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContactUsController extends AbstractController
 {
     /**
-     * @param MailerInterface $mailer
+     * @param \Swift_Mailer $mailer
      * @param Request $request
      * @return Response
      * @Route ("",name="contactUs")
      */
-    public function indexAction(MailerInterface $mailer,Request $request): Response
+    public function indexAction(\Swift_Mailer $mailer,Request $request): Response
     {
         $form = $this->createForm(MailType::class);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $email = (new Email())
-                ->from($form->get('from')->getData())
-                ->to('achrafjh@gmail.com')
-                ->priority(Email::PRIORITY_HIGH)
-                ->subject($form->get('subject')->getData())
-                ->text($form->get('content')->getData());
+            $email = (new \Swift_Message($form->get('subject')->getData()))
+                ->setFrom($form->get('from')->getData())
+                ->setTo('achrafjh@gmail.com')
 
-            try {
+                ->setBody($form->get('content')->getData(),'text/html');
+
+
                 $mailer->send($email);
+                $this->addFlash('succesMail',"Votre mail a été bien envoyé, Merci pour votre contribution");
                 return $this->redirectToRoute('app_home');
 
-            } catch (TransportExceptionInterface $e) {
-                dump($e);die;
-            }
+
         }
         return $this->render('home/contactUs.html.twig',[
             'form'=>$form->createView()

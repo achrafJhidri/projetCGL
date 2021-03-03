@@ -19,12 +19,10 @@
                 <th  {% if pagination.isSorted('p.gamme') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Gamme', 'p.gamme') }}
                 </th>
-                <th  {% if pagination.isSorted('p.sellPrice') %} class="sorted"{% endif %}>
+                <th  colspan="2"{% if pagination.isSorted('p.sellPrice') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Prix de vente', 'p.sellPrice') }}
                 </th>
-                <th>
-                    Edit
-                </th>
+
             </tr>
             {% for produit in pagination %}
                 <tr   >

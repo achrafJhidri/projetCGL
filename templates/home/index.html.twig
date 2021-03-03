@@ -1,6 +1,14 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
+    {% for message in app.flashes('succesMail') %}
+        <div class="alert alert-success d-flex justify-content-between" role="alert">
+           <span>
+            {{ message }}
+           </span>
+            <i id="closeAlertSucces" class="fa fa-times" role="button"></i>
+        </div>
+    {% endfor %}
     <div>
         <h1 class="display-5">Bienvenue sur l'application F & BC - RENTAB</h1>
         <div class="lead mb-3">
@@ -23,3 +31,8 @@
     </div>
 
 {% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     {{ encore_entry_script_tags('homePage') }}
+ {% endblock %}
