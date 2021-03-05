@@ -31,3 +31,15 @@ I
 src/Entity/Fourniture.php,e\a\ea678d70bcf1ea4ab986b824fa5d0d1163f4b456
 H
 src/Form/ProduitType.php,f\3\f34e70695efe27e6a5cdba988de5ea7136cba7f1
+=
+assets/app.js,8\6\8651bd0a7d84f9f6460894ab6b5ff212648386c4
+T
+$src/Repository/ProduitRepository.php,c\6\c63428115585b049b3d21a79f80e44a11e2b88fb
+E
+assets/js-routes.json,2\a\2abc0fe46f1c45496681e20eae1e7b69f6f4db06
+F
+src/Form/GammeType.php,9\0\900a1cf97a47700d7d801c05d51354e9d627f02b
+W
+'src/Repository/FournitureRepository.php,b\d\bd41963e328f8302807a0be82cda0d049fe07f32
+M
+assets/styles/newProduct.scss,c\a\cad678cf6fec4d92bebf52b17c5cfecfa2537c8b

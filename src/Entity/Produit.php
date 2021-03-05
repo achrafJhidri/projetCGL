@@ -91,9 +91,9 @@ class Produit
     }
 
     /**
-     * @param float $sellPrice
+     * @param  $sellPrice
      */
-    public function setSellPrice(float $sellPrice): void
+    public function setSellPrice($sellPrice): void
     {
         $this->sellPrice = $sellPrice;
     }

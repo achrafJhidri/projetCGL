@@ -63,7 +63,7 @@ class ProduitType extends AbstractType
                         ->orderBy('f.name', 'ASC');
                 },
             ])
-            ->add('Sauvegarder le produit', SubmitType::class, [
+            ->add('Sauvegarder', SubmitType::class, [
                 'attr'=>['class'=>'btn btn-primary']
             ])
         ;

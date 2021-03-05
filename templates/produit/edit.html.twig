@@ -11,9 +11,9 @@
 {% block content %}
 <div class="container">
     <div class="card-header mb-3">
-        <h4>Créer un produit</h4>
+        <h4>Modifier </h4>
     </div>
-    {{ form_start(form) }}
+    {{ form_start(form,  {'action': path('produit_edit', {'id': app.request.get('id') | number_format } )})  }}
     <div>
         {{ form_label(form.name) }}
         {{ form_widget(form.name) }}
@@ -46,10 +46,8 @@
             </div>
             <div class="col-8 border overflow-auto" id="fournitures-quantite">
                 {% for produitFournitures in produit.produitFournitures %}
-                    <span class="d-inline mr-3" id="fourniture{{ ( produit.produitFournitures | length )-1 }}-quantite" >
-                        <text>
-                            {fourniture: {{ produitFournitures.fourniture.name }}, quantite: {{ produitFournitures.quantite  }}}
-                        </text>
+                    <span class="d-inline mr-3" data-quantite ="{{ produitFournitures.quantite  }}" data-idfourniture="{{ produitFournitures.fourniture.id }}"  >
+                        <span id="fourniture{{ ( produit.produitFournitures | length )-1 }}-quantity">{fourniture: {{ produitFournitures.fourniture.name }}, quantite: {{ produitFournitures.quantite  }}}</span>
                         <span role="button" class="badge badge-secondary ml-2" id="close{{ ( produit.produitFournitures | length )-1 }}">
                             <i class="fas fa-times"></i>
                         </span>

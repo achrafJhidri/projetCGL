@@ -84,7 +84,7 @@ class ProduitController extends AbstractController
         {
             $produitName = $request->request->get("name");
             $produit->setName($produitName);
-            $produit->setSellPrice($request->request->get("price"));
+            $produit->setSellPrice(floatval($request->request->get("price")));
 
             $gamme = $this->em->getRepository(Gamme::class)->find($request->request->get("gamme"));
             $gamme->addProduct($produit);
@@ -125,12 +125,12 @@ class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="produit_edit", requirements={"id":"\d+"})
+     * @Route("/{id}/edit", name="produit_edit", requirements={"id":"\d+"}, methods={"POST", "GET"}, options={"expose"="true"})
      * @param int $id
      * @param Request $request
      * @return Response
      */
-    public function editAction(int $id,Request $request): Response
+    public function editAction(int $id , Request $request): Response
     {
         $produit = $this->getDoctrine()
             ->getRepository(Produit::class)
@@ -144,11 +144,8 @@ class ProduitController extends AbstractController
 
         $form = $this->createForm(ProduitType::class,$produit);
 
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $this->em->persist($produit);
-            $this->em->flush();
-            return $this->redirectToRoute('index_produits');
+        if ($request->isXmlHttpRequest()) {
+           dump($request->request);
         }
 
         return $this->render('produit/edit.html.twig',[
