@@ -71,7 +71,7 @@ class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/create",name="produit_create" , methods={"POST", "GET"}, options={"expose"=true})
+     * @Route("/create",name="produit_create" , methods={"POST", "GET"})
      * @param Request $request
      * @return Response
      */
@@ -125,7 +125,7 @@ class ProduitController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="produit_edit", requirements={"id":"\d+"}, methods={"POST", "GET"}, options={"expose"="true"})
+     * @Route("/{id}/edit", name="produit_edit", requirements={"id":"\d+"}, methods={"POST", "GET"})
      * @param int $id
      * @param Request $request
      * @return Response
@@ -145,7 +145,7 @@ class ProduitController extends AbstractController
         $form = $this->createForm(ProduitType::class,$produit);
 
         if ($request->isXmlHttpRequest()) {
-           dump($request->request);
+           dump($request);
         }
 
         return $this->render('produit/edit.html.twig',[

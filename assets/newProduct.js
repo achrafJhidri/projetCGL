@@ -134,16 +134,12 @@ btnEnregistrer.addEventListener('click', (event)=>{
         form.append('gamme', formSubmit.elements["produit[gamme]"].value);
         form.append("fournitureProduit", JSON.stringify(tabFournitureProduits));
 
-        console.log(typeof formSubmit.getAttribute('action'))
-        const url = Routing.generate(formSubmit.getAttribute('action'));
-        console.log(url);
-       // debugger
 
         const hdr = new Headers();
         hdr.append('X-Requested-With', 'XMLHttpRequest');
         showSpinner(); //show spinner
 
-        fetch(url, {method: 'POST', headers: hdr ,body: form}).then(
+        fetch(formSubmit.getAttribute('action'), {method: 'POST', headers: hdr ,body: form}).then(
             (response) => {
                 if(response.ok) {
                     response.json().then(resultat=>{
