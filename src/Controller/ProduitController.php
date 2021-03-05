@@ -82,22 +82,7 @@ class ProduitController extends AbstractController
 
         if ($request->isXmlHttpRequest())
         {
-            $produitName = $request->request->get("name");
-            $produit->setName($produitName);
-            $produit->setSellPrice(floatval($request->request->get("price")));
-
-            $gamme = $this->em->getRepository(Gamme::class)->find($request->request->get("gamme"));
-            $gamme->addProduct($produit);
-
-            $produitFourniture = json_decode($request->request->get("fournitureProduit"));
-            foreach ($produitFourniture as $value)
-            {
-                $fourniture = $this->em->getRepository(Fourniture::class)->find(intval($value->id_fourniture));
-                $produit->addFourniture($fourniture, intval($value->quantite));
-            }
-            $this->em->persist($produit);
-            $this->em->flush();
-
+            $produitName = $this->productHandler($produit, $request, true);
             $getProduit = $this->em->getRepository(Produit::class)->findOneBy(['name'=> $produitName]);
 
             $produitFournitures = [];
@@ -145,7 +130,7 @@ class ProduitController extends AbstractController
         $form = $this->createForm(ProduitType::class,$produit);
 
         if ($request->isXmlHttpRequest()) {
-           dump($request);
+           $produitName = $this->productHandler($produit, $request);
         }
 
         return $this->render('produit/edit.html.twig',[
@@ -169,6 +154,29 @@ class ProduitController extends AbstractController
         $this->em->remove($produit);
         $this->em->flush();
         return $this->redirectToRoute('index_fournitures');
+    }
+
+    public function productHandler(Produit $produit, Request  $request, $created=false): string
+    {
+        $produitName = $request->request->get("name");
+        $produit->setName($produitName);
+        $produit->setSellPrice(floatval($request->request->get("price")));
+
+        $gamme = $this->em->getRepository(Gamme::class)->find($request->request->get("gamme"));
+        $gamme->addProduct($produit);
+
+        $produitFourniture = json_decode($request->request->get("fournitureProduit"));
+        foreach ($produitFourniture as $value)
+        {
+            $fourniture = $this->em->getRepository(Fourniture::class)->find(intval($value->id_fourniture));
+            $produit->addFourniture($fourniture, intval($value->quantite));
+        }
+        if($created){
+            $this->em->persist($produit);
+        }
+        $this->em->flush();
+
+        return $produit->getName();
     }
 
 }

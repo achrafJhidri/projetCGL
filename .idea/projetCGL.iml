@@ -112,6 +112,18 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/friendsofsymfony/ckeditor-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/swiftmailer/swiftmailer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/swiftmailer-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/1/4" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/3/1" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/3/9" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/6/3" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/8/e" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/c/2" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/4" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/d" />
+      <excludeFolder url="file://$MODULE_DIR$/public/build" />
+      <excludeFolder url="file://$MODULE_DIR$/public/bundles" />
+      <excludeFolder url="file://$MODULE_DIR$/var" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -45,7 +45,7 @@ class Produit
 
 
     /**
-     * @OneToMany (targetEntity="ProduitFourniture",mappedBy="product",cascade="persist")
+     * @OneToMany (targetEntity="ProduitFourniture",mappedBy="product",cascade="all")
      */
     private $produitFournitures;
 

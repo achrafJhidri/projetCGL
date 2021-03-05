@@ -43,3 +43,19 @@ W
 'src/Repository/FournitureRepository.php,b\d\bd41963e328f8302807a0be82cda0d049fe07f32
 M
 assets/styles/newProduct.scss,c\a\cad678cf6fec4d92bebf52b17c5cfecfa2537c8b
+Q
+!templates/produit/index.html.twig,d\f\dfba39658647feada3e983fe3297293ec6acb77b
+P
+ src/Entity/Traits/Constantes.php,6\3\63a62d9d81813038954d25823e708aa0b3ae5140
+N
+templates/gamme/edit.html.twig,c\2\c27c786200bb492b26f6973a42b81ae93d9f9232
+=
+composer.json,3\9\3957b91a0d8450cea0115cfd5af69eac90d75897
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+R
+"templates/fourniture/new.html.twig,3\1\318b4d318f7563669acd985a99a1986b7b3061e8
+B
+assets/homePage.js,4\7\47f126e79f1688f0d2fc1065b15c4dd664141aed
+P
+ templates/produit/edit.html.twig,1\4\14729013ba068a31e3b1606a175767f9c394c2ee
