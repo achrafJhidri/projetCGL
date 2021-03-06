@@ -170,11 +170,15 @@ class ProduitController extends AbstractController
         foreach ($produitFourniture as $value)
         {
             $fournitureId = intval($value->id_fourniture) ;
-            $savedPF = $this->em->getRepository(ProduitFourniture::class)->findAlreadySaved($produit->getId(),$fournitureId);
-            if($savedPF && $savedPF[0]){
-                $this->em->remove($savedPF[0]);
-                $this->em->flush();
+
+            if(!$created){
+                $savedPF = $this->em->getRepository(ProduitFourniture::class)->findAlreadySaved($produit->getId(),$fournitureId);
+                if($savedPF && $savedPF[0]){
+                    $this->em->remove($savedPF[0]);
+                    $this->em->flush();
+                }
             }
+
             $fourniture = $this->em->getRepository(Fourniture::class)->find($fournitureId);
             $produit->addFourniture($fourniture, intval($value->quantite));
         }
