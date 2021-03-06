@@ -111,9 +111,10 @@ ajouterUneQuantite.addEventListener('click', (event)=>{
         console.log(tabFournitureProduits);
     }
 })
-const spinner = document.getElementById("spinner");
+
 //spinner.style.visibility='hidden';
-function showSpinner() {
+function showSpinner(spinner) {
+    console.log(spinner)
     spinner.classList.add('show')
     setTimeout(() => {
         spinner.classList.remove("show");
@@ -137,17 +138,49 @@ btnEnregistrer.addEventListener('click', (event)=>{
 
         const hdr = new Headers();
         hdr.append('X-Requested-With', 'XMLHttpRequest');
-        showSpinner(); //show spinner
+        const spinner = document.getElementById("spinner");
+        showSpinner(spinner); //show spinner
 
         fetch(formSubmit.getAttribute('action'), {method: 'POST', headers: hdr ,body: form}).then(
             (response) => {
                 if(response.ok) {
                     response.json().then(resultat=>{
-                        printNewProduct(resultat);
-                        tabFournitureProduits = []; //reset tab
-                        lenghtProducts.innerText = (parseInt(lenghtProducts.textContent,10) + 1)+"";
-                        document.forms.produit.reset();
-                        gammeSelect.disabled=false; //reactiver le champs gamme
+                        const res = JSON.parse(resultat);
+                        if(res.status === 200  ){
+                            window.location.replace("/produits");
+                        }else {
+                            printNewProduct(res);
+                            tabFournitureProduits = []; //reset tab
+                            lenghtProducts.innerText = (parseInt(lenghtProducts.textContent,10) + 1)+"";
+                            document.forms.produit.reset();
+                            gammeSelect.disabled=false; //reactiver le champs gamme
+                            removeAllChildNodes(containerFournitureQuantite);
+
+                            // add alert for success creating
+                            const containerAlert = document.createElement('div');
+                            containerAlert.classList.add('alert', 'alert-success');
+                            containerAlert.setAttribute('role', 'alert');
+
+                            containerAlert.innerText=res.message;
+
+                            const c = document.getElementById('containerTabLastProduct');
+                            const t = document.querySelector('.title-tabLastProduct');
+                            let op = 1;
+                            containerAlert.style.opacity=op;
+                            c.insertBefore(containerAlert, t);
+
+                            //anime to fade out alert
+                            const idInterval = setInterval(() => {
+                                if(op>0){
+                                    op -=0.1;
+                                    containerAlert.style.opacity = op;
+                                }else {
+                                    containerAlert.remove();
+                                    clearInterval(idInterval)
+                                }
+                            }, 300);
+                        }
+
                     }).catch((error)=>console.log(error))
                 } else {
                     alert('Mauvaise réponse du réseau !');
@@ -160,16 +193,16 @@ btnEnregistrer.addEventListener('click', (event)=>{
 })
 
 const printNewProduct = (product) =>{
-    const productToJson = JSON.parse(product);
+    //const productToJson =
     //console.log(productToJson)
     const tr = document.createElement('tr');
     tr.append(
-        makeTd(document.createTextNode(productToJson.name)),
-        makeTd(document.createTextNode(productToJson.sellPrice)),
-        makeTd(document.createTextNode(productToJson.gamme.name))
+        makeTd(document.createTextNode(product.name)),
+        makeTd(document.createTextNode(product.sellPrice)),
+        makeTd(document.createTextNode(product.gamme.name))
     );
 
-    productToJson.produitFournitures.forEach(elem => {
+    product.produitFournitures.forEach(elem => {
         //console.log(elem.quantite);
         const span = document.createElement('span');
         const br = document.createElement('br');
@@ -199,6 +232,7 @@ selectGamme.addEventListener('change', (event)=> {
     headers.append('X-Requested-With', 'XMLHttpRequest');
     headers.append('idGamme', idGamme)
 
+    showSpinner(spinnerFourniture); //print spinner
     fetch(url, {method: 'GET', headers: headers }).then(
         (response) => {
             if(response.ok) {
@@ -208,6 +242,7 @@ selectGamme.addEventListener('change', (event)=> {
                         alert(ressultData.message);
                     }else {
                         updateFournitures(ressultData.data);
+
                     }
                 }).catch((error)=>console.log(error))
             } else {

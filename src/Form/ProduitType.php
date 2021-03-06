@@ -7,6 +7,7 @@ namespace App\Form;
 use App\Entity\Gamme;
 use App\Entity\Produit;
 use App\Entity\Fourniture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -39,7 +40,42 @@ class ProduitType extends AbstractType
                     'class' => 'form-control mb-2'
                 ),
             ])
-            ->add('gamme', EntityType::class, [
+
+            ->add('Sauvegarder', SubmitType::class, [
+                'attr'=>['class'=>'btn btn-primary']
+            ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+        ;
+    }
+
+    public function onPreSetData(FormEvent $event){
+        $product = $event->getData();
+        $form = $event->getForm();
+
+        if(!$product->getProduitFournitures() instanceof ArrayCollection){
+            //dump('is_null no');
+            //dump($product);die;
+            $this->idFirstGamme = $product->getGamme()->getId();
+            $form->add('gamme', EntityType::class, [
+                'class' => Gamme::class,
+                'choice_label' => 'name',
+                'label' => 'Gamme d\'appartenance',
+                'attr' => ['class'=> 'form-control mb-2']
+            ])
+                ->add('produitFournitures', EntityType::class, [
+                    'class'=> Fourniture::class,
+                    'label'=> 'Fournitures',
+                    'attr'=> ['class'=>'form-control mb-2'],
+                    'query_builder' => function (EntityRepository  $entityManager) {
+                        return $entityManager->createQueryBuilder('f')
+                            ->where('f.gamme='.$this->idFirstGamme)
+                            ->orderBy('f.name', 'ASC');
+                    },
+                ]);
+        }
+        else{
+            //dump($product);die;
+            $form ->add('gamme', EntityType::class, [
                 'class' => Gamme::class,
                 'choice_label' => 'name',
                 'label' => 'Gamme d\'appartenance',
@@ -53,20 +89,16 @@ class ProduitType extends AbstractType
                     $this->idFirstGamme = $gamme[0]->getId();
                 },
             ])
-            ->add('produitFournitures', EntityType::class, [
-                'class'=> Fourniture::class,
-                'label'=> 'Fournitures',
-                'attr'=> ['class'=>'form-control mb-2'],
-                'query_builder' => function (EntityRepository  $entityManager) {
-                    return $entityManager->createQueryBuilder('f')
-                        ->where('f.gamme='.$this->idFirstGamme)
-                        ->orderBy('f.name', 'ASC');
-                },
-            ])
-            ->add('Sauvegarder', SubmitType::class, [
-                'attr'=>['class'=>'btn btn-primary']
-            ])
-        ;
+                ->add('produitFournitures', EntityType::class, [
+                    'class'=> Fourniture::class,
+                    'label'=> 'Fournitures',
+                    'attr'=> ['class'=>'form-control mb-2'],
+                    'query_builder' => function (EntityRepository  $entityManager) {
+                        return $entityManager->createQueryBuilder('f')
+                            ->where('f.gamme='.$this->idFirstGamme)
+                            ->orderBy('f.name', 'ASC');
+                    },
+                ]);
+        }
     }
-
 }

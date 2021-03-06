@@ -4,6 +4,15 @@
     Produits
 {% endblock %}
 {% block content %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success d-flex justify-content-between" role="alert">
+           <span>
+            {{ message }}
+           </span>
+            <i id="closeAlertSucces" class="fa fa-times" role="button"></i>
+        </div>
+    {% endfor %}
+
     <div>
         <div class="card-header mb-3">
             <h4>

@@ -97,6 +97,8 @@ class ProduitController extends AbstractController
                 'sellPrice'=>$getProduit->getSellPrice(),
                 'gamme'=>['name'=>$getProduit->getGamme()->getName()],
                 'produitFournitures'=> $produitFournitures,
+                'status'=> 201,
+                'message'=>'Le produit '.$produitName.' a bien été créé.'
             );
             return new JsonResponse(json_encode($response));
         }
@@ -132,6 +134,9 @@ class ProduitController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
            $produitName = $this->productHandler($produit, $request);
+
+           $this->addFlash('success', 'Le produit '.$produitName.' a bien été modifié.');
+           return new JsonResponse(json_encode(['status'=>200, 'message'=>'Le produit '.$produitName.' a bien été modifié.']));
         }
 
         return $this->render('produit/edit.html.twig',[
