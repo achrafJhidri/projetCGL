@@ -11,6 +11,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -29,11 +30,13 @@ class Produit
 
     /**
      * @ORM\Column(type="string",length=255)
+     * @Assert\NotBlank(message="le nom d'un produit doit être un nom valide")
      */
     private string $name;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Positive(message="le prix de vente doit être > 0")
      */
     private float $sellPrice;
 

@@ -6,10 +6,16 @@
     <div >
         {{ form_label(form.name) }}
         {{ form_widget(form.name) }}
+        <div class="alert-danger">
+            {{ form_errors(form.name) }}
+        </div>
     </div>
     <div >
         {{ form_label(form.buyPrice) }}
         {{ form_widget(form.buyPrice) }}
+      <div class="alert-danger">
+        {{ form_errors(form.buyPrice) }}
+      </div>
     </div>
     <div >
         {{ form_label(form.gamme) }}

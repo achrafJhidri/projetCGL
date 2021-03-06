@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping AS ORM;
 use App\Repository\GammeRepository;
 use Doctrine\ORM\Mapping\OneToMany;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Gamme
@@ -25,6 +26,7 @@ class Gamme
 
     /**
      * @ORM\Column(type="string",length=255)
+     * @Assert\NotBlank(message="le nom d'une game doit être un nom valide")
      */
     private string $name;
 

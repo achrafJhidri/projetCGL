@@ -6,6 +6,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProduitFournitureRepository;
 use Doctrine\ORM\Mapping\JoinColumn;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class ProduitFourniture
@@ -16,13 +17,14 @@ class ProduitFourniture
 {
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive(message="le nombre de fourniutre doit être > 0")
      */
     private $quantite;
 
     /**
     * @ORM\Id()
     * @ORM\ManyToOne(targetEntity="Produit", inversedBy="produitFournitures")
-     * @JoinColumn(name="product_id", referencedColumnName="id")
+    * @JoinColumn(name="product_id", referencedColumnName="id")
     */
     private $product;
     /**
@@ -80,8 +82,4 @@ class ProduitFourniture
         $this->fourniture = $fourniture;
     }
 
-    public function __toString()
-    {
-        return $this->fourniture->getName();
-    }
 }

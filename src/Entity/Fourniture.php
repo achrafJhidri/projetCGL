@@ -8,7 +8,7 @@ use App\Repository\FournitureRepository;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Fourniture
@@ -26,11 +26,13 @@ class Fourniture
 
     /**
      * @ORM\Column(type="string",length=255)
+     * @Assert\NotBlank(message="le nom d'une game doit être un nom valide")
      */
     private string $name;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Positive(message="le prix d'achat doit être > 0")
      */
     private float $buyPrice;
 
