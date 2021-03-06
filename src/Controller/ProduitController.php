@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Fourniture;
 use App\Entity\Gamme;
 use App\Entity\Produit;
+use App\Entity\ProduitFourniture;
 use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -168,7 +169,13 @@ class ProduitController extends AbstractController
         $produitFourniture = json_decode($request->request->get("fournitureProduit"));
         foreach ($produitFourniture as $value)
         {
-            $fourniture = $this->em->getRepository(Fourniture::class)->find(intval($value->id_fourniture));
+            $fournitureId = intval($value->id_fourniture) ;
+            $savedPF = $this->em->getRepository(ProduitFourniture::class)->findAlreadySaved($produit->getId(),$fournitureId);
+            if($savedPF && $savedPF[0]){
+                $this->em->remove($savedPF[0]);
+                $this->em->flush();
+            }
+            $fourniture = $this->em->getRepository(Fourniture::class)->find($fournitureId);
             $produit->addFourniture($fourniture, intval($value->quantite));
         }
         if($created){

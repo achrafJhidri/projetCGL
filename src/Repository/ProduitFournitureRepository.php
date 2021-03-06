@@ -34,4 +34,13 @@ class ProduitFournitureRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function findAlreadySaved(int $productId, int $fournitureId) {
+        $qb  = $this->createQueryBuilder('p')
+            ->where('p.product = :productId')
+            ->andWhere('p.fourniture = :fournitureId')
+            ->setParameter('productId',$productId)
+            ->setParameter('fournitureId',$fournitureId);
+        return $qb->getQuery()->execute();
+    }
+
 }
