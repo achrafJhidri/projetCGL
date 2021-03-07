@@ -11,6 +11,7 @@ use App\Form\Fourniture\FournitureType;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,6 +57,7 @@ class FournitureController extends AbstractController
     /**
      * @Route("/create",name="fourniture_create")
      * @param Request $request
+     * @IsGranted("ROLE_ADMIN")
      * @return Response
      */
     public function  createAction(Request $request ) :Response   {
@@ -96,6 +98,7 @@ class FournitureController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="fourniture_edit", requirements={"id":"\d+"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function editAction(int $id,Request $request): Response
     {
@@ -124,6 +127,7 @@ class FournitureController extends AbstractController
     }
     /**
      * @Route("/{id}/delete", name="fourniture_remove", requirements={"id":"\d+"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function removeAction(int $id,Request $request): Response
     {

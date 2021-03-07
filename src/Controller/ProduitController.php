@@ -11,6 +11,7 @@ use App\Entity\ProduitFourniture;
 use App\Form\ProduitType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,6 +74,7 @@ class ProduitController extends AbstractController
 
     /**
      * @Route("/create",name="produit_create" , methods={"POST", "GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @return Response
      */
@@ -114,6 +116,7 @@ class ProduitController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="produit_edit", requirements={"id":"\d+"}, methods={"POST", "GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param int $id
      * @param Request $request
      * @return Response
@@ -147,6 +150,7 @@ class ProduitController extends AbstractController
 
     /**
      * @Route("/{id}/delete", name="produit_remove", requirements={"id":"\d+"})
+     * @IsGranted("ROLE_ADMIN")
      * @param int $id
      * @param Request $request
      * @return Response
@@ -162,7 +166,7 @@ class ProduitController extends AbstractController
         return $this->redirectToRoute('index_fournitures');
     }
 
-    public function productHandler(Produit $produit, Request  $request, $created=false): string
+    private function productHandler(Produit $produit, Request  $request, $created=false): string
     {
         $produitName = $request->request->get("name");
         $produit->setName($produitName);

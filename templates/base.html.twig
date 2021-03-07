@@ -22,13 +22,20 @@
                     <a class="nav-item nav-link active" href="{{ path('index_fournitures') }}">Fourniteurs</a>
                 </div>
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#">
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a class="nav-item nav-link active" href="{{ path('config_index') }}">
                         <i class="fas fa-cogs"></i>
                         Configuration
                     </a>
-                    <a class="nav-item nav-link active" href="#">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Se connecter
+                    {% endif %}
+                    <a class="nav-item nav-link active" href="{% if is_granted('IS_AUTHENTICATED_FULLY') %} {{ path('app_logout') }} {% else %} {{ path('app_login') }} {% endif %}">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <i class="fas fa-sign-out-alt"></i>
+                            Se deconnecter
+                        {% else %}
+                            <i class="fas fa-sign-in-alt"></i>
+                            Se connecter
+                        {% endif %}
                     </a>
                 </div>
             </div>

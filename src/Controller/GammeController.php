@@ -11,6 +11,7 @@ use App\Form\GammeType;
 use ContainerDryPwzK\PaginatorInterface_82dac15;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +54,7 @@ class GammeController extends AbstractController
     /**
      * @return Response
      * @Route("/create", name="create_gamme")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function createAction(Request $request)
     {
@@ -96,6 +98,7 @@ class GammeController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="gamme_edit", requirements={"id":"\d+"})
+     * @IsGranted("ROLE_ADMIN")
      * @param int $id
      * @param Request $request
      * @return Response
@@ -128,6 +131,7 @@ class GammeController extends AbstractController
 
     /**
      * @Route("/{id}/delete", name="gamme_remove", requirements={"id":"\d+"})
+     * @IsGranted("ROLE_ADMIN")
      * @param int $id
      * @param Request $request
      * @return Response
