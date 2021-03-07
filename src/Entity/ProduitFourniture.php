@@ -32,7 +32,7 @@ class ProduitFourniture
      * @ORM\ManyToOne(targetEntity="Fourniture", inversedBy="fournitureProduit")
      * @JoinColumn(name="fourniture_id", referencedColumnName="id")
      */
-    private $fourniture;
+    private Fourniture $fourniture;
 
     /**
      * @return mixed
@@ -80,6 +80,11 @@ class ProduitFourniture
     public function setFourniture($fourniture): void
     {
         $this->fourniture = $fourniture;
+    }
+
+    public function __toString()
+    {
+        return json_encode(["idFourniture" => $this->fourniture->getId(),"quantite"=>$this->quantite]);
     }
 
 }

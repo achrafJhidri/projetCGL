@@ -166,5 +166,4 @@ class FournitureController extends AbstractController
     }
 
 
-
 }

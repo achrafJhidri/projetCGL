@@ -26,14 +26,16 @@
                     <span >{% if fourniture.priceUpdatable %} Oui {% else %}Non {% endif %}   </span>
                 </li>
             </ul>
-            <div class="d-flex justify-content-center">
-                <a type="button" class="btn btn-info mr-2" href="{{ path('fourniture_edit',{'id':fourniture.id}) }}">
-                    Editer
-                </a>
-                <a type="button" class="btn btn-danger" href="{{ path('fourniture_remove',{'id':fourniture.id}) }}">
-                    Supprimer
-                </a>
-            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="d-flex justify-content-center">
+                    <a type="button" class="btn btn-info mr-2" href="{{ path('fourniture_edit',{'id':fourniture.id}) }}">
+                        Editer
+                    </a>
+                    <a type="button" class="btn btn-danger" href="{{ path('fourniture_remove',{'id':fourniture.id}) }}">
+                        Supprimer
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 

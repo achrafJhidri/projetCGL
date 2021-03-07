@@ -60,15 +60,16 @@
 
         {{ knp_pagination_render(pagination) }}
     </div>
-
-    <div class="d-flex justify-content-center">
-        <a type="button" class="btn btn-info mr-2" href="{{ path('produit_edit',{'id':produit.id}) }}">
-            Editer
-        </a>
-        <a type="button" class="btn btn-danger" href="{{ path('produit_remove',{'id':produit.id}) }}">
-            Supprimer
-        </a>
-    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="d-flex justify-content-center">
+            <a type="button" class="btn btn-info mr-2" href="{{ path('produit_edit',{'id':produit.id}) }}">
+                Editer
+            </a>
+            <a type="button" class="btn btn-danger" href="{{ path('produit_remove',{'id':produit.id}) }}">
+                Supprimer
+            </a>
+        </div>
+    {% endif %}
 
 
 

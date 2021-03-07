@@ -61,9 +61,9 @@ class Fourniture
     }
 
     /**
-     * @param mixed $gamme
+     * @param Gamme $gamme
      */
-    public function setGamme($gamme): void
+    public function setGamme(Gamme $gamme): void
     {
         $this->gamme = $gamme;
     }
