@@ -71,10 +71,24 @@ btnAddFourniture.addEventListener('click',() =>{
 btnSubmit.addEventListener('click',(event)=>{
     event.preventDefault();
 
-    const lesTD = document.querySelectorAll("td:nth-child(3)")
+    const lesTD = document.querySelectorAll("td:nth-child(4)");
     lesTD.forEach(element =>{
+        let buyPrice = 0 ;
         element.dataset.fournitures.split("-").forEach(fourniture => {
-            console.log(JSON.parse(fourniture))
+            let obj =  JSON.parse(fourniture) ;
+            if (!obj.isUpdatable){//si ce n'est pas modifiable on prend le prix de base
+                buyPrice = buyPrice+obj.originalPrice*obj.quantite;
+            }
+            else { //si c'est modifiable
+                const index = fournitures.findIndex(fourniure => parseInt(fourniure.idFourniture) === obj.idFourniture);
+                if(index !== -1){ // si il a modifier le prix de la fourniture
+                    buyPrice=buyPrice+obj.quantite*fournitures[index].price;
+                }else { //sinon
+                    buyPrice = buyPrice+obj.originalPrice*obj.quantite;
+                }
+            }
         })
+        element.innerHTML=buyPrice.toFixed(2);
+        element.nextElementSibling.innerHTML=(parseFloat(element.previousElementSibling.innerHTML)-buyPrice).toFixed(2)
     });
 })

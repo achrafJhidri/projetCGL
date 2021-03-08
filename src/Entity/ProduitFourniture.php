@@ -84,7 +84,7 @@ class ProduitFourniture
 
     public function __toString()
     {
-        return json_encode(["idFourniture" => $this->fourniture->getId(),"quantite"=>$this->quantite]);
+        return json_encode(["idFourniture" => $this->fourniture->getId(),"quantite"=>$this->quantite,'originalPrice'=>$this->fourniture->getBuyPrice(),'isUpdatable'=>$this->fourniture->getIsPriceUpdatable()]);
     }
 
 }

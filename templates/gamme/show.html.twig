@@ -42,7 +42,7 @@
             </div>
 
             <div id="fournituresModifiees" class="border w-100  overflow-auto" style="height: 5rem">
-
+                {# conteneur des span de simulation voir fichier simulation.js #}
             </div>
 
 
@@ -61,6 +61,9 @@
             <th {% if pagination.isSorted('p.name') %} class="sorted"{% endif %}>
                 {{ knp_pagination_sortable(pagination, 'Nom', 'p.name') }}
             </th>
+            <th>
+                Composition
+            </th>
 
             <th  {% if pagination.isSorted('p.sellPrice') %} class="sorted"{% endif %}>
                 {{ knp_pagination_sortable(pagination, 'Prix de vente', 'p.sellPrice') }}
@@ -74,20 +77,25 @@
 
         </tr>
         {% for produit in pagination %}
-            <tr   >
+            {% set string = "" %}
+            {% set sum = 0 %}
+            {% for  pf in produit.produitFournitures.getValues()  %}
+                {% set string = "#{string} "  "#{pf.quantite} " "#{pf.fourniture.name}"  %}
+                {% set sum = sum + pf.fourniture.buyPrice*pf.quantite %}
+            {% endfor %}
+            <tr>
                 <td>
                     <a href="{{ path("show_produit",{'id': produit.id }) }}">
                         {{ produit.name }}
                     </a>
                 </td>
+                <td>
+                    {{ string }}
+                </td>
                 <td data-sellPrice="{{ produit.sellPrice }}">
                     {{ produit.sellPrice }}
                 </td>
                 <td data-fournitures={{ produit.produitFournitures.getValues()| join('-')}} >
-                    {% set sum = 0 %}
-                    {% for  pf in produit.produitFournitures.getValues()  %}
-                        {% set sum = sum + pf.fourniture.buyPrice*pf.quantite %}
-                    {% endfor %}
                     {{ sum }}
                 </td>
                 <td>
