@@ -39,7 +39,7 @@ class HomeController extends AbstractController
         $nbGamme = $this->em->getRepository(Gamme::class)->findAll();
 
         return $this->render("home/index.html.twig", [
-            'active' => 'active',
+            'accueilActif' => 'active',
             'gammes' => $gammes,
             'nbGammes' => count($nbGamme)
         ]);

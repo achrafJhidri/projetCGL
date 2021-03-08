@@ -20,6 +20,8 @@ class AproposController extends AbstractController
      * @Route("", name="about")
      */
     public function indexAction():Response {
-        return $this->render("home/apropos.html.twig");
+        return $this->render("home/apropos.html.twig",[
+            'aproposActif'=>'actif'
+        ]);
     }
 }

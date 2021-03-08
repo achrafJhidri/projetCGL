@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Gamme;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,8 +35,10 @@ class CalculRentabiliteController extends AbstractController
      */
     public function indexAction()
     {
-        return $this->render("calculRentabilite/index.html.twig", [
+        $gammes= $this->em->getRepository(Gamme::class)->findAll();
 
+        return $this->render("calculRentabilite/index.html.twig", [
+            "gammes"=>$gammes
         ]);
     }
 

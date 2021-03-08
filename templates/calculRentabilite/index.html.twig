@@ -2,8 +2,45 @@
 
 {% block content %}
     <div>
-        <h4>Page de calcul de rentabilité #todo</h4>
+        <h4>Prix maximum de rentabilité</h4>
     </div>
 
+ {% for gamme in gammes %}
+        <h5>
+            Gamme "{{ gamme.name }}"
+        </h5>
+  {% for fourniture in gamme.fournitures %}
+            {% if fourniture.isPriceUpdatable %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th  scope="col">Nom du produit</th>
+                            <th  scope="col">Prix maximum d'achat des {{ fourniture.name }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for fp in fourniture.fournitureProduit.getValues() %}
+                        <tr>
+                            <th scope="row">{{  fp.product.name}}</th>
 
+                            {% set prixRentable =  fp.product.sellPrice %}
+                            {% set quantiteFourniture = 1 %}
+                            {% for pf in  fp.product.produitFournitures.getValues() %}
+                                {% set fourntireTotal = 0 %}
+                                {% if  pf.fourniture.id != fourniture.id %}
+                                  {% set fourntireTotal  = pf.fourniture.buyPrice*pf.quantite %}
+                                {% else %}
+                                    {% set fourntireTotal  =  0 %}
+                                    {% set quantiteFourniture = pf.quantite %}
+                                {% endif %}
+                                {% set prixRentable = prixRentable -  fourntireTotal %}
+                            {% endfor %}
+                            <th scope="row">{{ prixRentable / quantiteFourniture}}</th>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+            {% endfor %}
+ {% endfor %}
 {% endblock %}

@@ -12,7 +12,7 @@
         <nav class="navbar navbar-expand-lg  sticky-top navbar-dark bg-primary">
             <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link {% if active is defined %} disabled {% else %} active {% endif %}" href="{{ path('app_home') }}">
+                    <a class="nav-item nav-link {% if accueilActif is defined %} disabled {% else %} active {% endif %}" href="{{ path('app_home') }}">
                         <i class="fas fa-home"></i> Accueil
                     </a>
                     <a class="nav-item nav-link active" href="{{ path('index_produits') }}">
@@ -20,6 +20,7 @@
                     </a>
                     <a class="nav-item nav-link active" href="{{ path('index_gamme') }}">Gammes</a>
                     <a class="nav-item nav-link active" href="{{ path('index_fournitures') }}">Fourniteurs</a>
+                    <a class="nav-item nav-link active" href="{{ path('index_calcul_rentabilite') }}">Rentabilité</a>
                 </div>
                 <div class="navbar-nav">
                     {% if is_granted('ROLE_ADMIN') %}
@@ -46,7 +47,7 @@
         </div>
         <div id="footer" class="card-footer  d-flex justify-content-center bg-primary text-light">
             <div>
-                <a href="{{ path('about') }}" class="btn btn-link   text-light">
+                <a href="{{ path('about') }}" class="btn btn-link {% if aproposActif is defined %} disabled {% else %} active {% endif %}  text-light">
                     <i class="fas fa-info-circle"></i>
                     A propos de cette application
                 </a>
