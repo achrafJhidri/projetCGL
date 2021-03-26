@@ -136,10 +136,10 @@ class ProduitController extends AbstractController
         $form = $this->createForm(ProduitType::class,$produit);
 
         if ($request->isXmlHttpRequest()) {
-           $produitName = $this->productHandler($produit, $request);
 
+           $produitName = $this->productHandler($produit, $request);
            $this->addFlash('success', 'Le produit '.$produitName.' a bien été modifié.');
-           return new JsonResponse(json_encode(['status'=>200, 'message'=>'Le produit '.$produitName.' a bien été modifié.']));
+           //return new JsonResponse(json_encode(['status'=>200, 'message'=>'Le produit '.$produitName.' a bien été modifié.']));
         }
 
         return $this->render('produit/edit.html.twig',[
@@ -176,15 +176,19 @@ class ProduitController extends AbstractController
         $gamme->addProduct($produit);
 
         $produitFourniture = json_decode($request->request->get("fournitureProduit"));
+
         foreach ($produitFourniture as $value)
         {
             $fournitureId = intval($value->id_fourniture) ;
 
             if(!$created){
+
                 $savedPF = $this->em->getRepository(ProduitFourniture::class)->findAlreadySaved($produit->getId(),$fournitureId);
-                if($savedPF && $savedPF[0]){
-                    $this->em->remove($savedPF[0]);
-                    $this->em->flush();
+                dump($savedPF);
+                if($savedPF){
+                        dump($savedPF[0]);
+                        $this->em->remove($savedPF[0]);
+                        $this->em->flush();
                 }
             }
 

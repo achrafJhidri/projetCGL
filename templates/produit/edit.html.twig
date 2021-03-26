@@ -51,7 +51,7 @@
                 {% for produitFournitures in produit.produitFournitures %}
                     <span class="d-inline mr-3" data-quantite ="{{ produitFournitures.quantite  }}" data-idfourniture="{{ produitFournitures.fourniture.id }}"  >
                         <span id="fourniture{{ ( produit.produitFournitures | length )-1 }}-quantity">{fourniture: {{ produitFournitures.fourniture.name }}, quantite: {{ produitFournitures.quantite  }}}</span>
-                        <span role="button" class="badge badge-secondary ml-2" id="close{{ ( produit.produitFournitures | length )-1 }}">
+                        <span role="button" class="badge badge-secondary ml-2" id="close{{ loop.index-1 }}">
                             <i class="fas fa-times"></i>
                         </span>
                     </span>

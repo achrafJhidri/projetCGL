@@ -24,21 +24,26 @@ const lenghtProducts = document.getElementById("lenght-products");
 ********************************************************************************/
 window.addEventListener('load', ()=>{
     const children = containerFournitureQuantite.children;
+    console.log(children.length)
     if(children.length>0)
     {
         gammeSelect.disabled = true;
         for(let i = 0; i < children.length; i++)
         {
             console.log(containerFournitureQuantite.children[i]);
+            console.log(containerFournitureQuantite.children[i].dataset.idfourniture);
             let obj = {
                 id_fourniture: containerFournitureQuantite.children[i].dataset.idfourniture,
                 quantite:containerFournitureQuantite.children[i].dataset.quantite
             }
             tabFournitureProduits.push(obj);
             const btnClose = document.getElementById("close"+(tabFournitureProduits.length-1)+"");
+            console.log(tabFournitureProduits);
+
             btnClose.addEventListener('click',(event)=>{
                 btnClose.parentElement.remove();
                 tabFournitureProduits.splice(tabFournitureProduits.length-1);
+                //console.log(tabFournitureProduits);
                 if(tabFournitureProduits.length === 0){
                     gammeSelect.disabled = false;
                 }
@@ -127,7 +132,7 @@ btnEnregistrer.addEventListener('click', (event)=>{
         alert("Vous êtes un petit malin hein, vous avez modifie une propriete donc impossible de soumettre le formulaire reactialise la page et faite les choses bien svp!");
     }
     else {
-        //console.log(document.forms.produit);
+        console.log(document.forms.produit);
         const formSubmit = document.forms.produit;
         let form = new FormData();
         form.append('name', formSubmit.elements["produit[name]"].value );
@@ -140,7 +145,9 @@ btnEnregistrer.addEventListener('click', (event)=>{
         hdr.append('X-Requested-With', 'XMLHttpRequest');
         const spinner = document.getElementById("spinner");
         showSpinner(spinner); //show spinner
-
+        // for (let value of form.values()) {
+        //     console.log(value);
+        // }
         fetch(formSubmit.getAttribute('action'), {method: 'POST', headers: hdr ,body: form}).then(
             (response) => {
                 if(response.ok) {
