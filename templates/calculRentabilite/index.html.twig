@@ -15,13 +15,14 @@
                     <thead>
                         <tr>
                             <th  scope="col">Nom du produit</th>
-                            <th  scope="col">Prix maximum d'achat des {{ fourniture.name }}</th>
+                            <th  scope="col">Prix maximum d'achat ( {{ fourniture.name }} )</th>
+                            <th  scope="col">devise</th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for fp in fourniture.fournitureProduit.getValues() %}
                         <tr>
-                            <th scope="row">{{  fp.product.name}}</th>
+                            <td      scope="row">{{  fp.product.name}}</td>
                             {% set prixRentable =  fp.product.sellPrice %}
                             {% set quantiteFourniture = 1 %}
                             {% for pf in  fp.product.produitFournitures.getValues() %}
@@ -34,7 +35,8 @@
                                 {% endif %}
                                 {% set prixRentable = prixRentable -  fourntireTotal %}
                             {% endfor %}
-                            <th scope="row">{{ prixRentable / quantiteFourniture}}</th>
+                            <td scope="row">{{ prixRentable / quantiteFourniture }} </td>
+                            <td scope="row">    €</td>
                         </tr>
                     {% endfor %}
                     </tbody>

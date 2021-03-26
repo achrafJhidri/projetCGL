@@ -19,16 +19,11 @@
                         Produits
                     </a>
                     <a class="nav-item nav-link active" href="{{ path('index_gamme') }}">Gammes</a>
-                    <a class="nav-item nav-link active" href="{{ path('index_fournitures') }}">Fourniteurs</a>
+                    <a class="nav-item nav-link active" href="{{ path('index_fournitures') }}">Fournitures</a>
                     <a class="nav-item nav-link active" href="{{ path('index_calcul_rentabilite') }}">Rentabilité</a>
                 </div>
                 <div class="navbar-nav">
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <a class="nav-item nav-link active" href="{{ path('config_index') }}">
-                        <i class="fas fa-cogs"></i>
-                        Configuration
-                    </a>
-                    {% endif %}
+
                     <a class="nav-item nav-link active" href="{% if is_granted('IS_AUTHENTICATED_FULLY') %} {{ path('app_logout') }} {% else %} {{ path('app_login') }} {% endif %}">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <i class="fas fa-sign-out-alt"></i>

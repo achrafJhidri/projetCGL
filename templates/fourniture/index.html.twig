@@ -20,8 +20,8 @@
                 <th {% if pagination.isSorted('f.name') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Nom', 'f.name') }}
                 </th>
-                <th  {% if pagination.isSorted('f.gamme.name') %} class="sorted"{% endif %}>
-                    {{ knp_pagination_sortable(pagination, 'Gamme', 'f.gamme.name') }}
+                <th >
+                    Gamme
                 </th>
                 <th  {% if pagination.isSorted('f.buyPrice') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(pagination, 'Prix d\'achat', 'f.buyPrice') }}
