@@ -47,7 +47,7 @@ class Fourniture
     private  $fournitureProduit;
 
     /**
-     * @ManyToOne  (targetEntity="Gamme",inversedBy="fourniture")
+     * @ManyToOne  (targetEntity="Gamme",inversedBy="fournitures")
      * @JoinColumn(name="gamme_id", referencedColumnName="id")
      */
     private $gamme ;

@@ -22,7 +22,6 @@
                     {% for fp in fourniture.fournitureProduit.getValues() %}
                         <tr>
                             <th scope="row">{{  fp.product.name}}</th>
-
                             {% set prixRentable =  fp.product.sellPrice %}
                             {% set quantiteFourniture = 1 %}
                             {% for pf in  fp.product.produitFournitures.getValues() %}

@@ -42,5 +42,4 @@ class ProduitFournitureRepository extends ServiceEntityRepository
             ->setParameter('fournitureId',$fournitureId);
         return $qb->getQuery()->execute();
     }
-
 }
